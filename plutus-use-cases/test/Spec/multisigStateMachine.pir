@@ -19,6 +19,7 @@
         (vardecl
           fToDataByteString_ctoBuiltinData (fun (con bytestring) (con data))
         )
+<<<<<<< HEAD
         (lam b (con bytestring) [ (builtin bData) b ])
       )
       (termbind
@@ -32,6 +33,15 @@
           (tyvardecl a (type)) (tyvardecl b (type))
           Tuple2_match
           (vardecl Tuple2 (fun a (fun b [[Tuple2 a] b])))
+=======
+        (termbind
+          (strict)
+          (vardecl
+            fToDataBuiltinByteString_ctoBuiltinData
+            (fun (con bytestring) (con data))
+          )
+          (lam b (con bytestring) [ (builtin bData) b ])
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
         )
       )
       (termbind
@@ -181,8 +191,16 @@
         )
         [
           [
+<<<<<<< HEAD
             { { fToDataMap_ctoBuiltinData (con bytestring) } (con integer) }
             fToDataByteString_ctoBuiltinData
+=======
+            [
+              { { fToDataMap_ctoBuiltinData (con bytestring) } (con integer) }
+              fToDataBuiltinByteString_ctoBuiltinData
+            ]
+            fToDataInteger_ctoBuiltinData
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
           ]
           fToDataInteger_ctoBuiltinData
         ]
@@ -223,11 +241,22 @@
                         [
                           [
                             [
+<<<<<<< HEAD
                               {
                                 { fToDataMap_ctoBuiltinData (con bytestring) }
                                 [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]
                               }
                               fToDataByteString_ctoBuiltinData
+=======
+                              [
+                                {
+                                  { fToDataMap_ctoBuiltinData (con bytestring) }
+                                  [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]
+                                }
+                                fToDataBuiltinByteString_ctoBuiltinData
+                              ]
+                              fToDataValue
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
                             ]
                             fToDataValue
                           ]

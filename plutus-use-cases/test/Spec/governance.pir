@@ -31,6 +31,7 @@
                 ]
               )
             ]
+<<<<<<< HEAD
             (lam
               thunk
               Unit
@@ -38,6 +39,26 @@
                 [ (builtin constrData) (con integer 0) ]
                 [ (builtin mkNilData) (con unit ()) ]
               ]
+=======
+          )
+        )
+        (termbind
+          (strict)
+          (vardecl
+            fToDataBuiltinByteString_ctoBuiltinData
+            (fun (con bytestring) (con data))
+          )
+          (lam b (con bytestring) [ (builtin bData) b ])
+        )
+        (datatypebind
+          (datatype
+            (tyvardecl Proposal (type))
+
+            Proposal_match
+            (vardecl
+              Proposal
+              (fun (con bytestring) (fun (con bytestring) (fun (con integer) Proposal)))
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
             )
           ]
           Unit
@@ -304,7 +325,7 @@
                                   { fToDataMap_ctoBuiltinData (con bytestring) }
                                   Bool
                                 }
-                                fToDataByteString_ctoBuiltinData
+                                fToDataBuiltinByteString_ctoBuiltinData
                               ]
                               fToDataBool_ctoBuiltinData
                             ]

@@ -28,7 +28,7 @@ instance Eq Integer where
     {-# INLINABLE (==) #-}
     (==) = Builtins.equalsInteger
 
-instance Eq Builtins.ByteString where
+instance Eq Builtins.BuiltinByteString where
     {-# INLINABLE (==) #-}
     (==) = Builtins.equalsByteString
 
@@ -80,7 +80,7 @@ instance Eq Data where
     Map _  == _                  = False
     I i == I i'                  = i == i'
     I _ == _                     = False
-    B b == B b'                  = b == b'
+    B b == B b'                  = Builtins.fromHaskellByteString b == Builtins.fromHaskellByteString b'
     B _ == _                     = False
     List ls == List ls'          = ls == ls'
     List _  == _                 = False

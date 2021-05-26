@@ -16,6 +16,7 @@ import           Prelude                    (Int, Integer, Maybe (..), error)
 
 import qualified PlutusCore.Data            as PLC
 import           PlutusTx.Builtins          as Builtins
+import           PlutusTx.Builtins.Class    as Builtins
 import           PlutusTx.Builtins.Internal (BuiltinData (..))
 import qualified PlutusTx.Builtins.Internal as BI
 
@@ -81,13 +82,17 @@ instance UnsafeFromData Integer where
 
 instance ToData ByteString where
     {-# INLINABLE toBuiltinData #-}
-    toBuiltinData b = mkB b
+    toBuiltinData b = mkB (toBuiltin b)
 instance FromData ByteString where
     {-# INLINABLE fromBuiltinData #-}
-    fromBuiltinData d = matchData' d (\_ _ -> Nothing) (const Nothing) (const Nothing) (const Nothing) (\b -> Just b)
+    fromBuiltinData d = matchData' d (\_ _ -> Nothing) (const Nothing) (const Nothing) (const Nothing) (\b -> Just (fromBuiltin b))
 instance UnsafeFromData ByteString where
     {-# INLINABLE unsafeFromBuiltinData #-}
-    unsafeFromBuiltinData = BI.unsafeDataAsB
+    unsafeFromBuiltinData d = fromBuiltin (BI.unsafeDataAsB d)
+
+deriving instance ToData Builtins.BuiltinByteString
+deriving instance FromData Builtins.BuiltinByteString
+deriving instance UnsafeFromData Builtins.BuiltinByteString
 
 instance ToData a => ToData [a] where
     {-# INLINABLE toBuiltinData #-}

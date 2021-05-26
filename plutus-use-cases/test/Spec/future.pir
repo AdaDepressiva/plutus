@@ -2957,6 +2957,7 @@
                         )
                       )
                     )
+<<<<<<< HEAD
                     (termbind
                       (strict)
                       (vardecl
@@ -2966,6 +2967,19 @@
                       (lam
                         d
                         (con data)
+=======
+                  )
+                  (termbind
+                    (strict)
+                    (vardecl
+                      fFromDataBuiltinByteString_cfromBuiltinData
+                      (fun (con data) [Maybe (con bytestring)])
+                    )
+                    (lam
+                      d
+                      (con data)
+                      [
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
                         [
                           [
                             [
@@ -3007,6 +3021,7 @@
                         (fun (con data) [Maybe [[Tuple2 (con bytestring)] (con integer)]])
                       )
                       [
+<<<<<<< HEAD
                         [
                           {
                             {
@@ -3017,6 +3032,13 @@
                           fFromDataByteString_cfromBuiltinData
                         ]
                         fFromDataInteger_cfromBuiltinData
+=======
+                        {
+                          { fFromDataTuple2_cfromBuiltinData (con bytestring) }
+                          (con integer)
+                        }
+                        fFromDataBuiltinByteString_cfromBuiltinData
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
                       ]
                     )
                     (termbind
@@ -3268,7 +3290,11 @@
                           fFromDataObservation_cfromBuiltinData
                           [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
                         }
+<<<<<<< HEAD
                         fFromDataValue
+=======
+                        fFromDataBuiltinByteString_cfromBuiltinData
+>>>>>>> Add opaque ByteString type to support literal ByteStrings.
                       ]
                     )
                     (termbind

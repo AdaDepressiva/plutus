@@ -57,7 +57,7 @@ instance Ord Integer where
     {-# INLINABLE (>=) #-}
     (>=) = Builtins.greaterThanEqInteger
 
-instance Ord Builtins.ByteString where
+instance Ord Builtins.BuiltinByteString where
     {-# INLINABLE compare #-}
     compare l r = if Builtins.lessThanByteString l r then LT else if Builtins.equalsByteString l r then EQ else GT
 
@@ -114,4 +114,4 @@ instance Ord Data where
     compare (I i) (I i')                      = compare i i'
     compare I{} _                             = LT
     compare _ I{}                             = GT
-    compare (B b) (B b')                      = compare b b'
+    compare (B b) (B b')                      = compare (Builtins.fromHaskellByteString b) (Builtins.fromHaskellByteString b')

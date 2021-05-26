@@ -54,6 +54,7 @@ import qualified Plutus.V1.Ledger.Api        as Api
 import qualified Plutus.V1.Ledger.Credential as Credential
 import qualified Plutus.V1.Ledger.Value      as Value
 import qualified PlutusCore.Data             as Data
+import qualified PlutusTx.Prelude            as PlutusTx
 
 fromCardanoBlock :: C.BlockInMode mode -> Either FromCardanoError P.Block
 fromCardanoBlock (C.BlockInMode (C.Block (C.BlockHeader _ _ _) txs) _) =
@@ -116,12 +117,12 @@ toCardanoTxIn :: P.TxOutRef -> Either ToCardanoError C.TxIn
 toCardanoTxIn (P.TxOutRef txId txIx) = C.TxIn <$> toCardanoTxId txId <*> pure (C.TxIx (fromInteger txIx))
 
 fromCardanoTxId :: C.TxId -> P.TxId
-fromCardanoTxId txId = P.TxId $ C.serialiseToRawBytes txId
+fromCardanoTxId txId = P.TxId $ PlutusTx.fromHaskellByteString $ C.serialiseToRawBytes txId
 
 toCardanoTxId :: P.TxId -> Either ToCardanoError C.TxId
 toCardanoTxId (P.TxId bs) =
     tag "toCardanoTxId"
-    $ deserialiseFromRawBytes C.AsTxId bs
+    $ deserialiseFromRawBytes C.AsTxId $ PlutusTx.toHaskellByteString bs
 
 fromCardanoTxInsCollateral :: C.TxInsCollateral era -> Set.Set P.TxIn
 fromCardanoTxInsCollateral C.TxInsCollateralNone       = mempty
@@ -202,16 +203,16 @@ toCardanoPaymentCredential (Credential.PubKeyCredential pubKeyHash) = C.PaymentC
 toCardanoPaymentCredential (Credential.ScriptCredential validatorHash) = C.PaymentCredentialByScript <$> toCardanoScriptHash validatorHash
 
 fromCardanoPaymentKeyHash :: C.Hash C.PaymentKey -> P.PubKeyHash
-fromCardanoPaymentKeyHash paymentKeyHash = P.PubKeyHash $ C.serialiseToRawBytes paymentKeyHash
+fromCardanoPaymentKeyHash paymentKeyHash = P.PubKeyHash $ PlutusTx.fromHaskellByteString $ C.serialiseToRawBytes paymentKeyHash
 
 toCardanoPaymentKeyHash :: P.PubKeyHash -> Either ToCardanoError (C.Hash C.PaymentKey)
-toCardanoPaymentKeyHash (P.PubKeyHash bs) = tag "toCardanoPaymentKeyHash" $ deserialiseFromRawBytes (C.AsHash C.AsPaymentKey) bs
+toCardanoPaymentKeyHash (P.PubKeyHash bs) = tag "toCardanoPaymentKeyHash" $ deserialiseFromRawBytes (C.AsHash C.AsPaymentKey) $ PlutusTx.toHaskellByteString bs
 
 fromCardanoScriptHash :: C.ScriptHash -> P.ValidatorHash
-fromCardanoScriptHash scriptHash = P.ValidatorHash $ C.serialiseToRawBytes scriptHash
+fromCardanoScriptHash scriptHash = P.ValidatorHash $ PlutusTx.fromHaskellByteString $ C.serialiseToRawBytes scriptHash
 
 toCardanoScriptHash :: P.ValidatorHash -> Either ToCardanoError C.ScriptHash
-toCardanoScriptHash (P.ValidatorHash bs) = tag "toCardanoScriptHash" $ deserialiseFromRawBytes C.AsScriptHash bs
+toCardanoScriptHash (P.ValidatorHash bs) = tag "toCardanoScriptHash" $ deserialiseFromRawBytes C.AsScriptHash $ PlutusTx.toHaskellByteString bs
 
 fromCardanoStakeAddressReference :: C.StakeAddressReference -> Either FromCardanoError (Maybe Credential.StakingCredential)
 fromCardanoStakeAddressReference C.NoStakeAddress = pure Nothing
@@ -234,10 +235,10 @@ toCardanoStakeCredential (Credential.PubKeyCredential pubKeyHash) = C.StakeCrede
 toCardanoStakeCredential (Credential.ScriptCredential validatorHash) = C.StakeCredentialByScript <$> toCardanoScriptHash validatorHash
 
 fromCardanoStakeKeyHash :: C.Hash C.StakeKey -> P.PubKeyHash
-fromCardanoStakeKeyHash stakeKeyHash = P.PubKeyHash $ C.serialiseToRawBytes stakeKeyHash
+fromCardanoStakeKeyHash stakeKeyHash = P.PubKeyHash $ PlutusTx.fromHaskellByteString $ C.serialiseToRawBytes stakeKeyHash
 
 toCardanoStakeKeyHash :: P.PubKeyHash -> Either ToCardanoError (C.Hash C.StakeKey)
-toCardanoStakeKeyHash (P.PubKeyHash bs) = tag "toCardanoStakeKeyHash" $ deserialiseFromRawBytes (C.AsHash C.AsStakeKey) bs
+toCardanoStakeKeyHash (P.PubKeyHash bs) = tag "toCardanoStakeKeyHash" $ deserialiseFromRawBytes (C.AsHash C.AsStakeKey) (PlutusTx.toHaskellByteString bs)
 
 fromCardanoTxOutValue :: C.TxOutValue era -> P.Value
 fromCardanoTxOutValue (C.TxOutAdaOnly _ lovelace) = fromCardanoLovelace lovelace
@@ -248,11 +249,11 @@ toCardanoTxOutValue value = C.TxOutValue C.MultiAssetInAlonzoEra <$> toCardanoVa
 
 fromCardanoTxOutDatumHash :: C.TxOutDatumHash era -> Maybe P.DatumHash
 fromCardanoTxOutDatumHash C.TxOutDatumHashNone   = Nothing
-fromCardanoTxOutDatumHash (C.TxOutDatumHash _ h) = Just $ P.DatumHash (C.serialiseToRawBytes h)
+fromCardanoTxOutDatumHash (C.TxOutDatumHash _ h) = Just $ P.DatumHash $ PlutusTx.fromHaskellByteString (C.serialiseToRawBytes h)
 
 toCardanoTxOutDatumHash :: Maybe P.DatumHash -> Either ToCardanoError (C.TxOutDatumHash C.AlonzoEra)
 toCardanoTxOutDatumHash Nothing = pure C.TxOutDatumHashNone
-toCardanoTxOutDatumHash (Just (P.DatumHash bs)) = C.TxOutDatumHash C.ScriptDataInAlonzoEra <$> tag "toCardanoTxOutDatumHash" (deserialiseFromRawBytes (C.AsHash C.AsScriptData) bs)
+toCardanoTxOutDatumHash (Just (P.DatumHash bs)) = C.TxOutDatumHash C.ScriptDataInAlonzoEra <$> tag "toCardanoTxOutDatumHash" (deserialiseFromRawBytes (C.AsHash C.AsScriptData) (PlutusTx.toHaskellByteString bs))
 
 fromCardanoMintValue :: C.TxMintValue build era -> P.Value
 fromCardanoMintValue C.TxMintNone              = mempty
@@ -281,16 +282,16 @@ toCardanoValue = fmap C.valueFromList . traverse fromValue . Value.flattenValue
                 (,) <$> (C.AssetId <$> toCardanoPolicyId (Value.currencyMPSHash currencySymbol) <*> pure (toCardanoAssetName tokenName)) <*> pure (C.Quantity amount)
 
 fromCardanoPolicyId :: C.PolicyId -> P.MintingPolicyHash
-fromCardanoPolicyId (C.PolicyId scriptHash) = P.MintingPolicyHash (C.serialiseToRawBytes scriptHash)
+fromCardanoPolicyId (C.PolicyId scriptHash) = P.MintingPolicyHash $ PlutusTx.fromHaskellByteString (C.serialiseToRawBytes scriptHash)
 
 toCardanoPolicyId :: P.MintingPolicyHash -> Either ToCardanoError C.PolicyId
-toCardanoPolicyId (P.MintingPolicyHash bs) = C.PolicyId <$> tag "toCardanoPolicyId" (tag (show (BS.length bs) <> " bytes") (deserialiseFromRawBytes C.AsScriptHash bs))
+toCardanoPolicyId (P.MintingPolicyHash bs) = C.PolicyId <$> tag "toCardanoPolicyId" (tag (show (BS.length (PlutusTx.toHaskellByteString bs)) <> " bytes") (deserialiseFromRawBytes C.AsScriptHash (PlutusTx.toHaskellByteString bs)))
 
 fromCardanoAssetName :: C.AssetName -> Value.TokenName
-fromCardanoAssetName (C.AssetName bs) = Value.TokenName bs
+fromCardanoAssetName (C.AssetName bs) = Value.TokenName $ PlutusTx.fromHaskellByteString bs
 
 toCardanoAssetName :: Value.TokenName -> C.AssetName
-toCardanoAssetName (Value.TokenName bs) = C.AssetName bs
+toCardanoAssetName (Value.TokenName bs) = C.AssetName $ PlutusTx.toHaskellByteString bs
 
 fromCardanoFee :: C.TxFee era -> P.Value
 fromCardanoFee (C.TxFeeImplicit _)          = mempty

@@ -132,17 +132,17 @@ infrequently (I believe).
 -}
 instance Eq Script where
     {-# INLINABLE (==) #-}
-    a == b = BSL.toStrict (serialise a) == BSL.toStrict (serialise b)
+    a == b = Builtins.fromHaskellByteString (BSL.toStrict (serialise a)) == Builtins.fromHaskellByteString (BSL.toStrict (serialise b))
 
 instance Haskell.Eq Script where
-    a == b = BSL.toStrict (serialise a) == BSL.toStrict (serialise b)
+    a == b = Builtins.fromHaskellByteString (BSL.toStrict (serialise a)) == Builtins.fromHaskellByteString (BSL.toStrict (serialise b))
 
 instance Ord Script where
     {-# INLINABLE compare #-}
-    a `compare` b = BSL.toStrict (serialise a) `compare` BSL.toStrict (serialise b)
+    a `compare` b = Builtins.fromHaskellByteString (BSL.toStrict (serialise a)) `compare` Builtins.fromHaskellByteString (BSL.toStrict (serialise b))
 
 instance Haskell.Ord Script where
-    a `compare` b = BSL.toStrict (serialise a) `compare` BSL.toStrict (serialise b)
+    a `compare` b = Builtins.fromHaskellByteString (BSL.toStrict (serialise a)) `compare` Builtins.fromHaskellByteString (BSL.toStrict (serialise b))
 
 instance Haskell.Show Script where
     showsPrec _ _ = Haskell.showString "<Script>"
@@ -281,7 +281,7 @@ instance BA.ByteArrayAccess MintingPolicy where
 
 -- | Script runtime representation of a @Digest SHA256@.
 newtype ValidatorHash =
-    ValidatorHash Builtins.ByteString
+    ValidatorHash Builtins.BuiltinByteString
     deriving (IsString, Haskell.Show, Serialise, Pretty) via LedgerBytes
     deriving stock (Generic)
     deriving newtype (Haskell.Eq, Haskell.Ord, Eq, Ord, Hashable, ToData, FromData, UnsafeFromData)
@@ -289,7 +289,7 @@ newtype ValidatorHash =
 
 -- | Script runtime representation of a @Digest SHA256@.
 newtype DatumHash =
-    DatumHash Builtins.ByteString
+    DatumHash Builtins.BuiltinByteString
     deriving (IsString, Haskell.Show, Serialise, Pretty) via LedgerBytes
     deriving stock (Generic)
     deriving newtype (Haskell.Eq, Haskell.Ord, Eq, Ord, Hashable, ToData, FromData, UnsafeFromData)
@@ -297,7 +297,7 @@ newtype DatumHash =
 
 -- | Script runtime representation of a @Digest SHA256@.
 newtype RedeemerHash =
-    RedeemerHash Builtins.ByteString
+    RedeemerHash Builtins.BuiltinByteString
     deriving (IsString, Haskell.Show, Serialise, Pretty) via LedgerBytes
     deriving stock (Generic)
     deriving newtype (Haskell.Eq, Haskell.Ord, Eq, Ord, Hashable, ToData, FromData, UnsafeFromData)
@@ -305,7 +305,7 @@ newtype RedeemerHash =
 
 -- | Script runtime representation of a @Digest SHA256@.
 newtype MintingPolicyHash =
-    MintingPolicyHash Builtins.ByteString
+    MintingPolicyHash Builtins.BuiltinByteString
     deriving (IsString, Haskell.Show, Serialise, Pretty) via LedgerBytes
     deriving stock (Generic)
     deriving newtype (Haskell.Eq, Haskell.Ord, Eq, Ord, Hashable, ToData, FromData, UnsafeFromData)
