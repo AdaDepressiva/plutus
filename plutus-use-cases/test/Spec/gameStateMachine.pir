@@ -32,9 +32,6 @@
       (let
         (nonrec)
         (datatypebind
-          (datatype (tyvardecl Unit (type))  Unit_match (vardecl Unit Unit))
-        )
-        (datatypebind
           (datatype
             (tyvardecl Bool (type))
 
@@ -431,7 +428,7 @@
                   (lam
                     ds
                     [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]
-                    [
+                    {
                       [
                         [
                           {
@@ -442,11 +439,11 @@
                               }
                               ds
                             ]
-                            (fun Unit [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
+                            (all dead (type) [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
                           }
-                          (lam
-                            thunk
-                            Unit
+                          (abs
+                            dead
+                            (type)
                             {
                               Nil
                               [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
@@ -459,9 +456,9 @@
                           (lam
                             xs
                             [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]
-                            (lam
-                              thunk
-                              Unit
+                            (abs
+                              dead
+                              (type)
                               [
                                 {
                                   [
@@ -490,7 +487,7 @@
                                         (lam
                                           ds
                                           [List [[Tuple2 (con bytestring)] (con integer)]]
-                                          [
+                                          {
                                             [
                                               [
                                                 {
@@ -501,11 +498,11 @@
                                                     }
                                                     ds
                                                   ]
-                                                  (fun Unit [List [[Tuple2 (con bytestring)] (con integer)]])
+                                                  (all dead (type) [List [[Tuple2 (con bytestring)] (con integer)]])
                                                 }
-                                                (lam
-                                                  thunk
-                                                  Unit
+                                                (abs
+                                                  dead
+                                                  (type)
                                                   {
                                                     Nil
                                                     [[Tuple2 (con bytestring)] (con integer)]
@@ -518,9 +515,9 @@
                                                 (lam
                                                   xs
                                                   [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                  (lam
-                                                    thunk
-                                                    Unit
+                                                  (abs
+                                                    dead
+                                                    (type)
                                                     [
                                                       {
                                                         [
@@ -578,8 +575,8 @@
                                                 )
                                               )
                                             ]
-                                            Unit
-                                          ]
+                                            (all dead (type) dead)
+                                          }
                                         )
                                       )
                                       [
@@ -609,8 +606,8 @@
                           )
                         )
                       ]
-                      Unit
-                    ]
+                      (all dead (type) dead)
+                    }
                   )
                 )
                 [ go ds ]
@@ -673,15 +670,16 @@
             (lam
               ds
               Bool
-              [
+              {
                 [
                   [
-                    { [ Bool_match ds ] (fun Unit Bool) } (lam thunk Unit True)
+                    { [ Bool_match ds ] (all dead (type) Bool) }
+                    (abs dead (type) True)
                   ]
-                  (lam thunk Unit ds)
+                  (abs dead (type) ds)
                 ]
-                Unit
-              ]
+                (all dead (type) dead)
+              }
             )
           )
         )
@@ -741,7 +739,7 @@
         (let
           (rec)
           (termbind
-            (nonstrict)
+            (strict)
             (vardecl
               fFoldableNil_cfoldMap
               (all m (type) (all a (type) (fun [Monoid m] (fun (fun a m) (fun [List a] m)))))
@@ -768,11 +766,11 @@
                       (lam
                         ds
                         [List a]
-                        [
+                        {
                           [
                             [
-                              { [ { Nil_match a } ds ] (fun Unit m) }
-                              (lam thunk Unit [ { mempty m } dMonoid ])
+                              { [ { Nil_match a } ds ] (all dead (type) m) }
+                              (abs dead (type) [ { mempty m } dMonoid ])
                             ]
                             (lam
                               x
@@ -780,9 +778,9 @@
                               (lam
                                 xs
                                 [List a]
-                                (lam
-                                  thunk
-                                  Unit
+                                (abs
+                                  dead
+                                  (type)
                                   [
                                     [ dSemigroup [ ds x ] ]
                                     [
@@ -800,8 +798,8 @@
                               )
                             )
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -812,7 +810,7 @@
           (let
             (rec)
             (termbind
-              (nonstrict)
+              (strict)
               (vardecl
                 fFunctorNil_cfmap
                 (all a (type) (all b (type) (fun (fun a b) (fun [List a] [List b]))))
@@ -829,11 +827,11 @@
                     (lam
                       l
                       [List a]
-                      [
+                      {
                         [
                           [
-                            { [ { Nil_match a } l ] (fun Unit [List b]) }
-                            (lam thunk Unit { Nil b })
+                            { [ { Nil_match a } l ] (all dead (type) [List b]) }
+                            (abs dead (type) { Nil b })
                           ]
                           (lam
                             x
@@ -841,9 +839,9 @@
                             (lam
                               xs
                               [List a]
-                              (lam
-                                thunk
-                                Unit
+                              (abs
+                                dead
+                                (type)
                                 [
                                   [ { Cons b } [ f x ] ]
                                   [ [ { { fFunctorNil_cfmap a } b } f ] xs ]
@@ -852,8 +850,8 @@
                             )
                           )
                         ]
-                        Unit
-                      ]
+                        (all dead (type) dead)
+                      }
                     )
                   )
                 )
@@ -932,7 +930,7 @@
               (let
                 (rec)
                 (termbind
-                  (nonstrict)
+                  (strict)
                   (vardecl
                     foldr
                     (all a (type) (all b (type) (fun (fun a (fun b b)) (fun b (fun [List a] b)))))
@@ -952,11 +950,11 @@
                           (lam
                             l
                             [List a]
-                            [
+                            {
                               [
                                 [
-                                  { [ { Nil_match a } l ] (fun Unit b) }
-                                  (lam thunk Unit acc)
+                                  { [ { Nil_match a } l ] (all dead (type) b) }
+                                  (abs dead (type) acc)
                                 ]
                                 (lam
                                   x
@@ -964,9 +962,9 @@
                                   (lam
                                     xs
                                     [List a]
-                                    (lam
-                                      thunk
-                                      Unit
+                                    (abs
+                                      dead
+                                      (type)
                                       [
                                         [ f x ]
                                         [ [ [ { { foldr a } b } f ] acc ] xs ]
@@ -975,8 +973,8 @@
                                   )
                                 )
                               ]
-                              Unit
-                            ]
+                              (all dead (type) dead)
+                            }
                           )
                         )
                       )
@@ -1078,7 +1076,7 @@
                                                     (lam
                                                       ds
                                                       r
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -1140,13 +1138,13 @@
                                                                   ds
                                                                 ]
                                                               ]
-                                                              (fun Unit [List [[Tuple2 k] r]])
+                                                              (all dead (type) [List [[Tuple2 k] r]])
                                                             }
-                                                            (lam thunk Unit xs)
+                                                            (abs dead (type) xs)
                                                           ]
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               [
                                                                 {
@@ -1159,8 +1157,8 @@
                                                             ]
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
                                                 ]
@@ -1204,7 +1202,7 @@
                                                   (lam
                                                     ds
                                                     [List [[Tuple2 k] r]]
-                                                    [
+                                                    {
                                                       [
                                                         [
                                                           {
@@ -1215,11 +1213,11 @@
                                                               }
                                                               ds
                                                             ]
-                                                            (fun Unit [[These v] r])
+                                                            (all dead (type) [[These v] r])
                                                           }
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               { { This v } r } i
                                                             ]
@@ -1231,9 +1229,9 @@
                                                           (lam
                                                             xs
                                                             [List [[Tuple2 k] r]]
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               [
                                                                 {
                                                                   [
@@ -1254,7 +1252,7 @@
                                                                   (lam
                                                                     i
                                                                     r
-                                                                    [
+                                                                    {
                                                                       [
                                                                         [
                                                                           {
@@ -1268,11 +1266,11 @@
                                                                                 c
                                                                               ]
                                                                             ]
-                                                                            (fun Unit [[These v] r])
+                                                                            (all dead (type) [[These v] r])
                                                                           }
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               [
                                                                                 {
@@ -1288,17 +1286,17 @@
                                                                             ]
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             go
                                                                             xs
                                                                           ]
                                                                         )
                                                                       ]
-                                                                      Unit
-                                                                    ]
+                                                                      (all dead (type) dead)
+                                                                    }
                                                                   )
                                                                 )
                                                               ]
@@ -1306,8 +1304,8 @@
                                                           )
                                                         )
                                                       ]
-                                                      Unit
-                                                    ]
+                                                      (all dead (type) dead)
+                                                    }
                                                   )
                                                 )
                                                 [
@@ -1358,7 +1356,7 @@
                             (lam
                               ds
                               [List [[Tuple2 (con bytestring)] [[These [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]]
-                              [
+                              {
                                 [
                                   [
                                     {
@@ -1369,11 +1367,11 @@
                                         }
                                         ds
                                       ]
-                                      (fun Unit [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]])
+                                      (all dead (type) [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]])
                                     }
-                                    (lam
-                                      thunk
-                                      Unit
+                                    (abs
+                                      dead
+                                      (type)
                                       {
                                         Nil
                                         [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]
@@ -1386,9 +1384,9 @@
                                     (lam
                                       xs
                                       [List [[Tuple2 (con bytestring)] [[These [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]]
-                                      (lam
-                                        thunk
-                                        Unit
+                                      (abs
+                                        dead
+                                        (type)
                                         [
                                           {
                                             [
@@ -1455,7 +1453,7 @@
                                                                 (lam
                                                                   ds
                                                                   [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                                  [
+                                                                  {
                                                                     [
                                                                       [
                                                                         {
@@ -1466,11 +1464,11 @@
                                                                             }
                                                                             ds
                                                                           ]
-                                                                          (fun Unit [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]])
+                                                                          (all dead (type) [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]])
                                                                         }
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           {
                                                                             Nil
                                                                             [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]
@@ -1483,9 +1481,9 @@
                                                                         (lam
                                                                           xs
                                                                           [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               {
                                                                                 [
@@ -1547,8 +1545,8 @@
                                                                         )
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                               [ go b ]
@@ -1597,7 +1595,7 @@
                                                             (lam
                                                               ds
                                                               [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                              [
+                                                              {
                                                                 [
                                                                   [
                                                                     {
@@ -1608,11 +1606,11 @@
                                                                         }
                                                                         ds
                                                                       ]
-                                                                      (fun Unit [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]])
+                                                                      (all dead (type) [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]])
                                                                     }
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       {
                                                                         Nil
                                                                         [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]
@@ -1625,9 +1623,9 @@
                                                                     (lam
                                                                       xs
                                                                       [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         [
                                                                           {
                                                                             [
@@ -1689,8 +1687,8 @@
                                                                     )
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           )
                                                           [ go a ]
@@ -1708,8 +1706,8 @@
                                     )
                                   )
                                 ]
-                                Unit
-                              ]
+                                (all dead (type) dead)
+                              }
                             )
                           )
                           [
@@ -1761,7 +1759,7 @@
                               (lam
                                 ds
                                 [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]]
-                                [
+                                {
                                   [
                                     [
                                       {
@@ -1772,11 +1770,11 @@
                                           }
                                           ds
                                         ]
-                                        (fun Unit [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
+                                        (all dead (type) [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
                                       }
-                                      (lam
-                                        thunk
-                                        Unit
+                                      (abs
+                                        dead
+                                        (type)
                                         {
                                           Nil
                                           [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
@@ -1789,9 +1787,9 @@
                                       (lam
                                         xs
                                         [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]]
-                                        (lam
-                                          thunk
-                                          Unit
+                                        (abs
+                                          dead
+                                          (type)
                                           [
                                             {
                                               [
@@ -1823,7 +1821,7 @@
                                                     (lam
                                                       ds
                                                       [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]]
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -1834,11 +1832,11 @@
                                                                 }
                                                                 ds
                                                               ]
-                                                              (fun Unit [List [[Tuple2 (con bytestring)] (con integer)]])
+                                                              (all dead (type) [List [[Tuple2 (con bytestring)] (con integer)]])
                                                             }
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               {
                                                                 Nil
                                                                 [[Tuple2 (con bytestring)] (con integer)]
@@ -1851,9 +1849,9 @@
                                                             (lam
                                                               xs
                                                               [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   {
                                                                     [
@@ -1966,8 +1964,8 @@
                                                             )
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
                                                   [
@@ -2000,8 +1998,8 @@
                                       )
                                     )
                                   ]
-                                  Unit
-                                ]
+                                  (all dead (type) dead)
+                                }
                               )
                             )
                             [ go [ [ unionVal ls ] rs ] ]
@@ -2027,6 +2025,11 @@
                           [ [ fAdditiveGroupValue_cscale (con integer -1) ] ds ]
                         ]
                       )
+                    )
+                  )
+                  (datatypebind
+                    (datatype
+                      (tyvardecl Unit (type))  Unit_match (vardecl Unit Unit)
                     )
                   )
                   (termbind
@@ -2167,12 +2170,12 @@
                                       (lam
                                         s
                                         (con bytestring)
-                                        [
+                                        {
                                           [
                                             [
                                               {
                                                 [ GameInput_match input ]
-                                                (fun Unit [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
+                                                (all dead (type) [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
                                               }
                                               (lam
                                                 ipv
@@ -2183,9 +2186,9 @@
                                                   (lam
                                                     ipv
                                                     [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                                    (lam
-                                                      thunk
-                                                      Unit
+                                                    (abs
+                                                      dead
+                                                      (type)
                                                       {
                                                         Nothing
                                                         [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]
@@ -2195,9 +2198,9 @@
                                                 )
                                               )
                                             ]
-                                            (lam
-                                              thunk
-                                              Unit
+                                            (abs
+                                              dead
+                                              (type)
                                               [
                                                 {
                                                   Just
@@ -2288,8 +2291,8 @@
                                               ]
                                             )
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     )
                                   )
@@ -2303,12 +2306,12 @@
                                     (lam
                                       currentSecret
                                       (con bytestring)
-                                      [
+                                      {
                                         [
                                           [
                                             {
                                               [ GameInput_match input ]
-                                              (fun Unit [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
+                                              (all dead (type) [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
                                             }
                                             (lam
                                               theGuess
@@ -2319,10 +2322,10 @@
                                                 (lam
                                                   takenOut
                                                   [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                                  (lam
-                                                    thunk
-                                                    Unit
-                                                    [
+                                                  (abs
+                                                    dead
+                                                    (type)
+                                                    {
                                                       [
                                                         [
                                                           {
@@ -2357,11 +2360,11 @@
                                                                 False
                                                               ]
                                                             ]
-                                                            (fun Unit [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
+                                                            (all dead (type) [Maybe [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]])
                                                           }
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               {
                                                                 Just
@@ -2563,33 +2566,33 @@
                                                             ]
                                                           )
                                                         ]
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           {
                                                             Nothing
                                                             [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]
                                                           }
                                                         )
                                                       ]
-                                                      Unit
-                                                    ]
+                                                      (all dead (type) dead)
+                                                    }
                                                   )
                                                 )
                                               )
                                             )
                                           ]
-                                          (lam
-                                            thunk
-                                            Unit
+                                          (abs
+                                            dead
+                                            (type)
                                             {
                                               Nothing
                                               [[Tuple2 [[TxConstraints Void] Void]] [State GameState]]
                                             }
                                           )
                                         ]
-                                        Unit
-                                      ]
+                                        (all dead (type) dead)
+                                      }
                                     )
                                   )
                                 )
@@ -2716,16 +2719,16 @@
                       (lam
                         x
                         Bool
-                        [
+                        {
                           [
                             [
-                              { [ Bool_match ds ] (fun Unit Bool) }
-                              (lam thunk Unit x)
+                              { [ Bool_match ds ] (all dead (type) Bool) }
+                              (abs dead (type) x)
                             ]
-                            (lam thunk Unit False)
+                            (abs dead (type) False)
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -2745,7 +2748,7 @@
                       (lam
                         r
                         TxOutRef
-                        [
+                        {
                           [
                             [
                               {
@@ -2788,11 +2791,11 @@
                                     False
                                   ]
                                 ]
-                                (fun Unit Bool)
+                                (all dead (type) Bool)
                               }
-                              (lam
-                                thunk
-                                Unit
+                              (abs
+                                dead
+                                (type)
                                 [
                                   [
                                     [
@@ -2827,10 +2830,10 @@
                                 ]
                               )
                             ]
-                            (lam thunk Unit False)
+                            (abs dead (type) False)
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -2897,7 +2900,7 @@
                                                           (lam
                                                             ds
                                                             (con bytestring)
-                                                            [
+                                                            {
                                                               [
                                                                 [
                                                                   {
@@ -2953,17 +2956,17 @@
                                                                         ds
                                                                       ]
                                                                     ]
-                                                                    (fun Unit Bool)
+                                                                    (all dead (type) Bool)
                                                                   }
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     True
                                                                   )
                                                                 ]
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
+                                                                (abs
+                                                                  dead
+                                                                  (type)
                                                                   [
                                                                     [
                                                                       {
@@ -2986,8 +2989,8 @@
                                                                   ]
                                                                 )
                                                               ]
-                                                              Unit
-                                                            ]
+                                                              (all dead (type) dead)
+                                                            }
                                                           )
                                                         )
                                                       )
@@ -3024,19 +3027,19 @@
                         (lam
                           b
                           [(lam a (type) [Maybe a]) a]
-                          [
+                          {
                             [
                               [
                                 {
                                   [ { Maybe_match a } ds ]
-                                  (fun Unit [(lam a (type) [Maybe a]) a])
+                                  (all dead (type) [(lam a (type) [Maybe a]) a])
                                 }
-                                (lam ipv a (lam thunk Unit ds))
+                                (lam ipv a (abs dead (type) ds))
                               ]
-                              (lam thunk Unit b)
+                              (abs dead (type) b)
                             ]
-                            Unit
-                          ]
+                            (all dead (type) dead)
+                          }
                         )
                       )
                     )
@@ -3103,7 +3106,7 @@
                                             (lam
                                               ds
                                               (con bytestring)
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -3150,7 +3153,7 @@
                                                                   (lam
                                                                     ds
                                                                     (con data)
-                                                                    [
+                                                                    {
                                                                       [
                                                                         [
                                                                           {
@@ -3180,11 +3183,11 @@
                                                                                 False
                                                                               ]
                                                                             ]
-                                                                            (fun Unit [Maybe [[Tuple2 (con bytestring)] (con data)]])
+                                                                            (all dead (type) [Maybe [[Tuple2 (con bytestring)] (con data)]])
                                                                           }
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               {
                                                                                 Just
@@ -3194,17 +3197,17 @@
                                                                             ]
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           {
                                                                             Nothing
                                                                             [[Tuple2 (con bytestring)] (con data)]
                                                                           }
                                                                         )
                                                                       ]
-                                                                      Unit
-                                                                    ]
+                                                                      (all dead (type) dead)
+                                                                    }
                                                                   )
                                                                 )
                                                               ]
@@ -3213,14 +3216,14 @@
                                                           ds
                                                         ]
                                                       ]
-                                                      (fun Unit [Maybe (con bytestring)])
+                                                      (all dead (type) [Maybe (con bytestring)])
                                                     }
                                                     (lam
                                                       a
                                                       [[Tuple2 (con bytestring)] (con data)]
-                                                      (lam
-                                                        thunk
-                                                        Unit
+                                                      (abs
+                                                        dead
+                                                        (type)
                                                         [
                                                           {
                                                             Just
@@ -3252,14 +3255,14 @@
                                                       )
                                                     )
                                                   ]
-                                                  (lam
-                                                    thunk
-                                                    Unit
+                                                  (abs
+                                                    dead
+                                                    (type)
                                                     { Nothing (con bytestring) }
                                                   )
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           )
                                         )
@@ -3403,7 +3406,7 @@
                                       (lam
                                         c
                                         (con integer)
-                                        [
+                                        {
                                           [
                                             [
                                               {
@@ -3431,12 +3434,12 @@
                                                     False
                                                   ]
                                                 ]
-                                                (fun Unit Bool)
+                                                (all dead (type) Bool)
                                               }
-                                              (lam
-                                                thunk
-                                                Unit
-                                                [
+                                              (abs
+                                                dead
+                                                (type)
+                                                {
                                                   [
                                                     [
                                                       {
@@ -3466,26 +3469,26 @@
                                                             False
                                                           ]
                                                         ]
-                                                        (fun Unit Bool)
+                                                        (all dead (type) Bool)
                                                       }
-                                                      (lam
-                                                        thunk
-                                                        Unit
+                                                      (abs
+                                                        dead
+                                                        (type)
                                                         [
                                                           [ equalsInteger c ] c
                                                         ]
                                                       )
                                                     ]
-                                                    (lam thunk Unit False)
+                                                    (abs dead (type) False)
                                                   ]
-                                                  Unit
-                                                ]
+                                                  (all dead (type) dead)
+                                                }
                                               )
                                             ]
-                                            (lam thunk Unit False)
+                                            (abs dead (type) False)
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     )
                                   )
@@ -3527,7 +3530,7 @@
                                       (termbind
                                         (nonstrict)
                                         (vardecl j Bool)
-                                        [
+                                        {
                                           [
                                             [
                                               {
@@ -3538,15 +3541,15 @@
                                                   }
                                                   stakingCred
                                                 ]
-                                                (fun Unit Bool)
+                                                (all dead (type) Bool)
                                               }
                                               (lam
                                                 a
                                                 StakingCredential
-                                                (lam
-                                                  thunk
-                                                  Unit
-                                                  [
+                                                (abs
+                                                  dead
+                                                  (type)
+                                                  {
                                                     [
                                                       [
                                                         {
@@ -3557,14 +3560,14 @@
                                                             }
                                                             stakingCred
                                                           ]
-                                                          (fun Unit Bool)
+                                                          (all dead (type) Bool)
                                                         }
                                                         (lam
                                                           a
                                                           StakingCredential
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               [
                                                                 fEqStakingCredential_c
@@ -3575,17 +3578,17 @@
                                                           )
                                                         )
                                                       ]
-                                                      (lam thunk Unit False)
+                                                      (abs dead (type) False)
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                             ]
-                                            (lam
-                                              thunk
-                                              Unit
-                                              [
+                                            (abs
+                                              dead
+                                              (type)
+                                              {
                                                 [
                                                   [
                                                     {
@@ -3596,22 +3599,22 @@
                                                         }
                                                         stakingCred
                                                       ]
-                                                      (fun Unit Bool)
+                                                      (all dead (type) Bool)
                                                     }
                                                     (lam
                                                       ipv
                                                       StakingCredential
-                                                      (lam thunk Unit False)
+                                                      (abs dead (type) False)
                                                     )
                                                   ]
-                                                  (lam thunk Unit True)
+                                                  (abs dead (type) True)
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                       [
                                         [
@@ -3627,7 +3630,7 @@
                                                 (lam
                                                   r
                                                   (con bytestring)
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         {
@@ -3657,14 +3660,14 @@
                                                               False
                                                             ]
                                                           ]
-                                                          (fun Unit Bool)
+                                                          (all dead (type) Bool)
                                                         }
-                                                        (lam thunk Unit j)
+                                                        (abs dead (type) j)
                                                       ]
-                                                      (lam thunk Unit False)
+                                                      (abs dead (type) False)
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               ]
                                               (lam ipv (con bytestring) False)
@@ -3682,7 +3685,7 @@
                                             (lam
                                               a
                                               (con bytestring)
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -3712,14 +3715,14 @@
                                                           False
                                                         ]
                                                       ]
-                                                      (fun Unit Bool)
+                                                      (all dead (type) Bool)
                                                     }
-                                                    (lam thunk Unit j)
+                                                    (abs dead (type) j)
                                                   ]
-                                                  (lam thunk Unit False)
+                                                  (abs dead (type) False)
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           ]
                                         )
@@ -3785,7 +3788,7 @@
                                                 (lam
                                                   ds
                                                   (con bytestring)
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         [
@@ -3795,14 +3798,14 @@
                                                                 ScriptPurpose_match
                                                                 ds
                                                               ]
-                                                              (fun Unit [Maybe TxInInfo])
+                                                              (all dead (type) [Maybe TxInInfo])
                                                             }
                                                             (lam
                                                               default_arg0
                                                               DCert
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 {
                                                                   Nothing
                                                                   TxInInfo
@@ -3813,9 +3816,9 @@
                                                           (lam
                                                             default_arg0
                                                             (con bytestring)
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               {
                                                                 Nothing TxInInfo
                                                               }
@@ -3825,9 +3828,9 @@
                                                         (lam
                                                           default_arg0
                                                           StakingCredential
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             { Nothing TxInInfo }
                                                           )
                                                         )
@@ -3835,9 +3838,9 @@
                                                       (lam
                                                         txOutRef
                                                         TxOutRef
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           [
                                                             [
                                                               [
@@ -3870,7 +3873,7 @@
                                                                     (lam
                                                                       ds
                                                                       TxOut
-                                                                      [
+                                                                      {
                                                                         [
                                                                           [
                                                                             {
@@ -3884,11 +3887,11 @@
                                                                                   txOutRef
                                                                                 ]
                                                                               ]
-                                                                              (fun Unit [Maybe TxInInfo])
+                                                                              (all dead (type) [Maybe TxInInfo])
                                                                             }
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               [
                                                                                 {
                                                                                   Just
@@ -3898,17 +3901,17 @@
                                                                               ]
                                                                             )
                                                                           ]
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             {
                                                                               Nothing
                                                                               TxInInfo
                                                                             }
                                                                           )
                                                                         ]
-                                                                        Unit
-                                                                      ]
+                                                                        (all dead (type) dead)
+                                                                      }
                                                                     )
                                                                   )
                                                                 ]
@@ -3919,8 +3922,8 @@
                                                         )
                                                       )
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                             )
@@ -3945,19 +3948,19 @@
                     (lam
                       ctx
                       ScriptContext
-                      [
+                      {
                         [
                           [
                             {
                               [ { Maybe_match TxInInfo } [ findOwnInput ctx ] ]
-                              (fun Unit [List TxOut])
+                              (all dead (type) [List TxOut])
                             }
                             (lam
                               ds
                               TxInInfo
-                              (lam
-                                thunk
-                                Unit
+                              (abs
+                                dead
+                                (type)
                                 [
                                   { [ TxInInfo_match ds ] [List TxOut] }
                                   (lam
@@ -4056,7 +4059,7 @@
                                                                                           (lam
                                                                                             ds
                                                                                             [Maybe (con bytestring)]
-                                                                                            [
+                                                                                            {
                                                                                               [
                                                                                                 [
                                                                                                   {
@@ -4070,11 +4073,11 @@
                                                                                                         ds
                                                                                                       ]
                                                                                                     ]
-                                                                                                    (fun Unit [List TxOut])
+                                                                                                    (all dead (type) [List TxOut])
                                                                                                   }
-                                                                                                  (lam
-                                                                                                    thunk
-                                                                                                    Unit
+                                                                                                  (abs
+                                                                                                    dead
+                                                                                                    (type)
                                                                                                     [
                                                                                                       [
                                                                                                         {
@@ -4087,14 +4090,14 @@
                                                                                                     ]
                                                                                                   )
                                                                                                 ]
-                                                                                                (lam
-                                                                                                  thunk
-                                                                                                  Unit
+                                                                                                (abs
+                                                                                                  dead
+                                                                                                  (type)
                                                                                                   xs
                                                                                                 )
                                                                                               ]
-                                                                                              Unit
-                                                                                            ]
+                                                                                              (all dead (type) dead)
+                                                                                            }
                                                                                           )
                                                                                         )
                                                                                       )
@@ -4133,9 +4136,9 @@
                               )
                             )
                           ]
-                          (lam
-                            thunk
-                            Unit
+                          (abs
+                            dead
+                            (type)
                             [
                               { error [List TxOut] }
                               [
@@ -4163,8 +4166,8 @@
                             ]
                           )
                         ]
-                        Unit
-                      ]
+                        (all dead (type) dead)
+                      }
                     )
                   )
                   (termbind
@@ -4193,7 +4196,7 @@
                               (lam
                                 xs
                                 [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]]
-                                [
+                                {
                                   [
                                     [
                                       {
@@ -4204,9 +4207,9 @@
                                           }
                                           xs
                                         ]
-                                        (fun Unit Bool)
+                                        (all dead (type) Bool)
                                       }
-                                      (lam thunk Unit True)
+                                      (abs dead (type) True)
                                     ]
                                     (lam
                                       ds
@@ -4214,9 +4217,9 @@
                                       (lam
                                         xs
                                         [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[These (con integer)] (con integer)]]]]
-                                        (lam
-                                          thunk
-                                          Unit
+                                        (abs
+                                          dead
+                                          (type)
                                           [
                                             {
                                               [
@@ -4248,7 +4251,7 @@
                                                     (lam
                                                       xs
                                                       [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]]
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -4259,11 +4262,11 @@
                                                                 }
                                                                 xs
                                                               ]
-                                                              (fun Unit Bool)
+                                                              (all dead (type) Bool)
                                                             }
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               [ go xs ]
                                                             )
                                                           ]
@@ -4273,9 +4276,9 @@
                                                             (lam
                                                               xs
                                                               [List [[Tuple2 (con bytestring)] [[These (con integer)] (con integer)]]]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   {
                                                                     [
@@ -4315,7 +4318,7 @@
                                                                             (lam
                                                                               b
                                                                               (con integer)
-                                                                              [
+                                                                              {
                                                                                 [
                                                                                   [
                                                                                     {
@@ -4332,25 +4335,25 @@
                                                                                           b
                                                                                         ]
                                                                                       ]
-                                                                                      (fun Unit Bool)
+                                                                                      (all dead (type) Bool)
                                                                                     }
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         go
                                                                                         xs
                                                                                       ]
                                                                                     )
                                                                                   ]
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     False
                                                                                   )
                                                                                 ]
-                                                                                Unit
-                                                                              ]
+                                                                                (all dead (type) dead)
+                                                                              }
                                                                             )
                                                                           ]
                                                                           (lam
@@ -4359,7 +4362,7 @@
                                                                             (lam
                                                                               b
                                                                               (con integer)
-                                                                              [
+                                                                              {
                                                                                 [
                                                                                   [
                                                                                     {
@@ -4373,32 +4376,32 @@
                                                                                           b
                                                                                         ]
                                                                                       ]
-                                                                                      (fun Unit Bool)
+                                                                                      (all dead (type) Bool)
                                                                                     }
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         go
                                                                                         xs
                                                                                       ]
                                                                                     )
                                                                                   ]
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     False
                                                                                   )
                                                                                 ]
-                                                                                Unit
-                                                                              ]
+                                                                                (all dead (type) dead)
+                                                                              }
                                                                             )
                                                                           )
                                                                         ]
                                                                         (lam
                                                                           a
                                                                           (con integer)
-                                                                          [
+                                                                          {
                                                                             [
                                                                               [
                                                                                 {
@@ -4415,25 +4418,25 @@
                                                                                       )
                                                                                     ]
                                                                                   ]
-                                                                                  (fun Unit Bool)
+                                                                                  (all dead (type) Bool)
                                                                                 }
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   [
                                                                                     go
                                                                                     xs
                                                                                   ]
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 False
                                                                               )
                                                                             ]
-                                                                            Unit
-                                                                          ]
+                                                                            (all dead (type) dead)
+                                                                          }
                                                                         )
                                                                       ]
                                                                     )
@@ -4443,8 +4446,8 @@
                                                             )
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
                                                   [ go x ]
@@ -4456,8 +4459,8 @@
                                       )
                                     )
                                   ]
-                                  Unit
-                                ]
+                                  (all dead (type) dead)
+                                }
                               )
                             )
                             [ go [ [ unionVal l ] r ] ]
@@ -4512,7 +4515,7 @@
                                               ds
                                             ]
                                           )
-                                          [
+                                          {
                                             [
                                               [
                                                 {
@@ -4550,7 +4553,7 @@
                                                                 (lam
                                                                   ds
                                                                   [Maybe (con bytestring)]
-                                                                  [
+                                                                  {
                                                                     [
                                                                       [
                                                                         {
@@ -4561,15 +4564,15 @@
                                                                             }
                                                                             ds
                                                                           ]
-                                                                          (fun Unit Bool)
+                                                                          (all dead (type) Bool)
                                                                         }
                                                                         (lam
                                                                           svh
                                                                           (con bytestring)
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
-                                                                            [
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
+                                                                            {
                                                                               [
                                                                                 [
                                                                                   {
@@ -4586,12 +4589,12 @@
                                                                                         ds
                                                                                       ]
                                                                                     ]
-                                                                                    (fun Unit Bool)
+                                                                                    (all dead (type) Bool)
                                                                                   }
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
-                                                                                    [
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
+                                                                                    {
                                                                                       [
                                                                                         [
                                                                                           {
@@ -4602,14 +4605,14 @@
                                                                                               }
                                                                                               hsh
                                                                                             ]
-                                                                                            (fun Unit Bool)
+                                                                                            (all dead (type) Bool)
                                                                                           }
                                                                                           (lam
                                                                                             a
                                                                                             (con bytestring)
-                                                                                            (lam
-                                                                                              thunk
-                                                                                              Unit
+                                                                                            (abs
+                                                                                              dead
+                                                                                              (type)
                                                                                               [
                                                                                                 [
                                                                                                   equalsByteString
@@ -4620,35 +4623,35 @@
                                                                                             )
                                                                                           )
                                                                                         ]
-                                                                                        (lam
-                                                                                          thunk
-                                                                                          Unit
+                                                                                        (abs
+                                                                                          dead
+                                                                                          (type)
                                                                                           False
                                                                                         )
                                                                                       ]
-                                                                                      Unit
-                                                                                    ]
+                                                                                      (all dead (type) dead)
+                                                                                    }
                                                                                   )
                                                                                 ]
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   False
                                                                                 )
                                                                               ]
-                                                                              Unit
-                                                                            ]
+                                                                              (all dead (type) dead)
+                                                                            }
                                                                           )
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         False
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             )
@@ -4660,13 +4663,13 @@
                                                       ]
                                                     ]
                                                   ]
-                                                  (fun Unit Bool)
+                                                  (all dead (type) Bool)
                                                 }
-                                                (lam thunk Unit True)
+                                                (abs dead (type) True)
                                               ]
-                                              (lam
-                                                thunk
-                                                Unit
+                                              (abs
+                                                dead
+                                                (type)
                                                 [
                                                   [
                                                     {
@@ -4684,8 +4687,8 @@
                                                 ]
                                               )
                                             ]
-                                            Unit
-                                          ]
+                                            (all dead (type) dead)
+                                          }
                                         )
                                       )
                                     )
@@ -4720,7 +4723,7 @@
                       (lam
                         y
                         (con integer)
-                        [
+                        {
                           [
                             [
                               {
@@ -4737,14 +4740,14 @@
                                     False
                                   ]
                                 ]
-                                (fun Unit Ordering)
+                                (all dead (type) Ordering)
                               }
-                              (lam thunk Unit EQ)
+                              (abs dead (type) EQ)
                             ]
-                            (lam
-                              thunk
-                              Unit
-                              [
+                            (abs
+                              dead
+                              (type)
+                              {
                                 [
                                   [
                                     {
@@ -4768,18 +4771,18 @@
                                           False
                                         ]
                                       ]
-                                      (fun Unit Ordering)
+                                      (all dead (type) Ordering)
                                     }
-                                    (lam thunk Unit LT)
+                                    (abs dead (type) LT)
                                   ]
-                                  (lam thunk Unit GT)
+                                  (abs dead (type) GT)
                                 ]
-                                Unit
-                              ]
+                                (all dead (type) dead)
+                              }
                             )
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -4795,7 +4798,7 @@
                       (lam
                         y
                         (con integer)
-                        [
+                        {
                           [
                             [
                               {
@@ -4815,14 +4818,14 @@
                                     False
                                   ]
                                 ]
-                                (fun Unit (con integer))
+                                (all dead (type) (con integer))
                               }
-                              (lam thunk Unit y)
+                              (abs dead (type) y)
                             ]
-                            (lam thunk Unit x)
+                            (abs dead (type) x)
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -4838,7 +4841,7 @@
                       (lam
                         y
                         (con integer)
-                        [
+                        {
                           [
                             [
                               {
@@ -4858,14 +4861,14 @@
                                     False
                                   ]
                                 ]
-                                (fun Unit (con integer))
+                                (all dead (type) (con integer))
                               }
-                              (lam thunk Unit x)
+                              (abs dead (type) x)
                             ]
-                            (lam thunk Unit y)
+                            (abs dead (type) y)
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -5078,34 +5081,34 @@
                                 (vardecl fail (fun (all a (type) a) Ordering))
                                 (lam ds (all a (type) a) (error Ordering))
                               )
-                              [
+                              {
                                 [
                                   [
                                     [
                                       {
                                         [ { Extended_match a } ds ]
-                                        (fun Unit Ordering)
+                                        (all dead (type) Ordering)
                                       }
                                       (lam
                                         default_arg0
                                         a
-                                        (lam
-                                          thunk
-                                          Unit
-                                          [
+                                        (abs
+                                          dead
+                                          (type)
+                                          {
                                             [
                                               [
                                                 [
                                                   {
                                                     [ { Extended_match a } ds ]
-                                                    (fun Unit Ordering)
+                                                    (all dead (type) Ordering)
                                                   }
                                                   (lam
                                                     default_arg0
                                                     a
-                                                    (lam
-                                                      thunk
-                                                      Unit
+                                                    (abs
+                                                      dead
+                                                      (type)
                                                       (let
                                                         (nonrec)
                                                         (termbind
@@ -5117,7 +5120,7 @@
                                                           (lam
                                                             ds
                                                             (all a (type) a)
-                                                            [
+                                                            {
                                                               [
                                                                 [
                                                                   [
@@ -5129,15 +5132,15 @@
                                                                         }
                                                                         ds
                                                                       ]
-                                                                      (fun Unit Ordering)
+                                                                      (all dead (type) Ordering)
                                                                     }
                                                                     (lam
                                                                       default_arg0
                                                                       a
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
-                                                                        [
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
+                                                                        {
                                                                           [
                                                                             [
                                                                               [
@@ -5149,15 +5152,15 @@
                                                                                     }
                                                                                     ds
                                                                                   ]
-                                                                                  (fun Unit Ordering)
+                                                                                  (all dead (type) Ordering)
                                                                                 }
                                                                                 (lam
                                                                                   l
                                                                                   a
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
-                                                                                    [
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
+                                                                                    {
                                                                                       [
                                                                                         [
                                                                                           [
@@ -5169,14 +5172,14 @@
                                                                                                 }
                                                                                                 ds
                                                                                               ]
-                                                                                              (fun Unit Ordering)
+                                                                                              (all dead (type) Ordering)
                                                                                             }
                                                                                             (lam
                                                                                               r
                                                                                               a
-                                                                                              (lam
-                                                                                                thunk
-                                                                                                Unit
+                                                                                              (abs
+                                                                                                dead
+                                                                                                (type)
                                                                                                 [
                                                                                                   [
                                                                                                     [
@@ -5193,9 +5196,9 @@
                                                                                               )
                                                                                             )
                                                                                           ]
-                                                                                          (lam
-                                                                                            thunk
-                                                                                            Unit
+                                                                                          (abs
+                                                                                            dead
+                                                                                            (type)
                                                                                             [
                                                                                               fail
                                                                                               (abs
@@ -5208,9 +5211,9 @@
                                                                                             ]
                                                                                           )
                                                                                         ]
-                                                                                        (lam
-                                                                                          thunk
-                                                                                          Unit
+                                                                                        (abs
+                                                                                          dead
+                                                                                          (type)
                                                                                           [
                                                                                             fail
                                                                                             (abs
@@ -5223,14 +5226,14 @@
                                                                                           ]
                                                                                         )
                                                                                       ]
-                                                                                      Unit
-                                                                                    ]
+                                                                                      (all dead (type) dead)
+                                                                                    }
                                                                                   )
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   fail
                                                                                   (abs
@@ -5243,21 +5246,21 @@
                                                                                 ]
                                                                               )
                                                                             ]
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               GT
                                                                             )
                                                                           ]
-                                                                          Unit
-                                                                        ]
+                                                                          (all dead (type) dead)
+                                                                        }
                                                                       )
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
-                                                                    [
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
+                                                                    {
                                                                       [
                                                                         [
                                                                           [
@@ -5269,15 +5272,15 @@
                                                                                 }
                                                                                 ds
                                                                               ]
-                                                                              (fun Unit Ordering)
+                                                                              (all dead (type) Ordering)
                                                                             }
                                                                             (lam
                                                                               l
                                                                               a
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
-                                                                                [
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
+                                                                                {
                                                                                   [
                                                                                     [
                                                                                       [
@@ -5289,14 +5292,14 @@
                                                                                             }
                                                                                             ds
                                                                                           ]
-                                                                                          (fun Unit Ordering)
+                                                                                          (all dead (type) Ordering)
                                                                                         }
                                                                                         (lam
                                                                                           r
                                                                                           a
-                                                                                          (lam
-                                                                                            thunk
-                                                                                            Unit
+                                                                                          (abs
+                                                                                            dead
+                                                                                            (type)
                                                                                             [
                                                                                               [
                                                                                                 [
@@ -5313,9 +5316,9 @@
                                                                                           )
                                                                                         )
                                                                                       ]
-                                                                                      (lam
-                                                                                        thunk
-                                                                                        Unit
+                                                                                      (abs
+                                                                                        dead
+                                                                                        (type)
                                                                                         [
                                                                                           fail
                                                                                           (abs
@@ -5328,9 +5331,9 @@
                                                                                         ]
                                                                                       )
                                                                                     ]
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         fail
                                                                                         (abs
@@ -5343,14 +5346,14 @@
                                                                                       ]
                                                                                     )
                                                                                   ]
-                                                                                  Unit
-                                                                                ]
+                                                                                  (all dead (type) dead)
+                                                                                }
                                                                               )
                                                                             )
                                                                           ]
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               fail
                                                                               (abs
@@ -5363,25 +5366,25 @@
                                                                             ]
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           GT
                                                                         )
                                                                       ]
-                                                                      Unit
-                                                                    ]
+                                                                      (all dead (type) dead)
+                                                                    }
                                                                   )
                                                                 ]
-                                                                (lam
-                                                                  thunk Unit LT
+                                                                (abs
+                                                                  dead (type) LT
                                                                 )
                                                               ]
-                                                              Unit
-                                                            ]
+                                                              (all dead (type) dead)
+                                                            }
                                                           )
                                                         )
-                                                        [
+                                                        {
                                                           [
                                                             [
                                                               [
@@ -5393,14 +5396,14 @@
                                                                     }
                                                                     ds
                                                                   ]
-                                                                  (fun Unit Ordering)
+                                                                  (all dead (type) Ordering)
                                                                 }
                                                                 (lam
                                                                   default_arg0
                                                                   a
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       fail
                                                                       (abs
@@ -5413,9 +5416,9 @@
                                                                   )
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   fail
                                                                   (abs
@@ -5426,10 +5429,10 @@
                                                                 ]
                                                               )
                                                             ]
-                                                            (lam
-                                                              thunk
-                                                              Unit
-                                                              [
+                                                            (abs
+                                                              dead
+                                                              (type)
+                                                              {
                                                                 [
                                                                   [
                                                                     [
@@ -5441,14 +5444,14 @@
                                                                           }
                                                                           ds
                                                                         ]
-                                                                        (fun Unit Ordering)
+                                                                        (all dead (type) Ordering)
                                                                       }
                                                                       (lam
                                                                         default_arg0
                                                                         a
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             fail
                                                                             (abs
@@ -5462,9 +5465,9 @@
                                                                         )
                                                                       )
                                                                     ]
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       [
                                                                         fail
                                                                         (abs
@@ -5477,27 +5480,27 @@
                                                                       ]
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     EQ
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     )
                                                   )
                                                 ]
-                                                (lam thunk Unit GT)
+                                                (abs dead (type) GT)
                                               ]
-                                              (lam
-                                                thunk
-                                                Unit
+                                              (abs
+                                                dead
+                                                (type)
                                                 (let
                                                   (nonrec)
                                                   (termbind
@@ -5509,7 +5512,7 @@
                                                     (lam
                                                       ds
                                                       (all a (type) a)
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             [
@@ -5521,15 +5524,15 @@
                                                                   }
                                                                   ds
                                                                 ]
-                                                                (fun Unit Ordering)
+                                                                (all dead (type) Ordering)
                                                               }
                                                               (lam
                                                                 default_arg0
                                                                 a
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
-                                                                  [
+                                                                (abs
+                                                                  dead
+                                                                  (type)
+                                                                  {
                                                                     [
                                                                       [
                                                                         [
@@ -5541,15 +5544,15 @@
                                                                               }
                                                                               ds
                                                                             ]
-                                                                            (fun Unit Ordering)
+                                                                            (all dead (type) Ordering)
                                                                           }
                                                                           (lam
                                                                             l
                                                                             a
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
-                                                                              [
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
+                                                                              {
                                                                                 [
                                                                                   [
                                                                                     [
@@ -5561,14 +5564,14 @@
                                                                                           }
                                                                                           ds
                                                                                         ]
-                                                                                        (fun Unit Ordering)
+                                                                                        (all dead (type) Ordering)
                                                                                       }
                                                                                       (lam
                                                                                         r
                                                                                         a
-                                                                                        (lam
-                                                                                          thunk
-                                                                                          Unit
+                                                                                        (abs
+                                                                                          dead
+                                                                                          (type)
                                                                                           [
                                                                                             [
                                                                                               [
@@ -5585,9 +5588,9 @@
                                                                                         )
                                                                                       )
                                                                                     ]
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         fail
                                                                                         (abs
@@ -5600,9 +5603,9 @@
                                                                                       ]
                                                                                     )
                                                                                   ]
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     [
                                                                                       fail
                                                                                       (abs
@@ -5615,14 +5618,14 @@
                                                                                     ]
                                                                                   )
                                                                                 ]
-                                                                                Unit
-                                                                              ]
+                                                                                (all dead (type) dead)
+                                                                              }
                                                                             )
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             fail
                                                                             (abs
@@ -5635,21 +5638,21 @@
                                                                           ]
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         GT
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             ]
-                                                            (lam
-                                                              thunk
-                                                              Unit
-                                                              [
+                                                            (abs
+                                                              dead
+                                                              (type)
+                                                              {
                                                                 [
                                                                   [
                                                                     [
@@ -5661,15 +5664,15 @@
                                                                           }
                                                                           ds
                                                                         ]
-                                                                        (fun Unit Ordering)
+                                                                        (all dead (type) Ordering)
                                                                       }
                                                                       (lam
                                                                         l
                                                                         a
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
-                                                                          [
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
+                                                                          {
                                                                             [
                                                                               [
                                                                                 [
@@ -5681,14 +5684,14 @@
                                                                                       }
                                                                                       ds
                                                                                     ]
-                                                                                    (fun Unit Ordering)
+                                                                                    (all dead (type) Ordering)
                                                                                   }
                                                                                   (lam
                                                                                     r
                                                                                     a
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         [
                                                                                           [
@@ -5705,9 +5708,9 @@
                                                                                     )
                                                                                   )
                                                                                 ]
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   [
                                                                                     fail
                                                                                     (abs
@@ -5720,9 +5723,9 @@
                                                                                   ]
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   fail
                                                                                   (abs
@@ -5735,14 +5738,14 @@
                                                                                 ]
                                                                               )
                                                                             ]
-                                                                            Unit
-                                                                          ]
+                                                                            (all dead (type) dead)
+                                                                          }
                                                                         )
                                                                       )
                                                                     ]
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       [
                                                                         fail
                                                                         (abs
@@ -5755,23 +5758,23 @@
                                                                       ]
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     GT
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           ]
-                                                          (lam thunk Unit LT)
+                                                          (abs dead (type) LT)
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         [
@@ -5782,14 +5785,14 @@
                                                               }
                                                               ds
                                                             ]
-                                                            (fun Unit Ordering)
+                                                            (all dead (type) Ordering)
                                                           }
                                                           (lam
                                                             default_arg0
                                                             a
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               [
                                                                 fail
                                                                 (abs
@@ -5801,9 +5804,9 @@
                                                             )
                                                           )
                                                         ]
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           [
                                                             fail
                                                             (abs
@@ -5812,10 +5815,10 @@
                                                           ]
                                                         )
                                                       ]
-                                                      (lam
-                                                        thunk
-                                                        Unit
-                                                        [
+                                                      (abs
+                                                        dead
+                                                        (type)
+                                                        {
                                                           [
                                                             [
                                                               [
@@ -5827,14 +5830,14 @@
                                                                     }
                                                                     ds
                                                                   ]
-                                                                  (fun Unit Ordering)
+                                                                  (all dead (type) Ordering)
                                                                 }
                                                                 (lam
                                                                   default_arg0
                                                                   a
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       fail
                                                                       (abs
@@ -5847,9 +5850,9 @@
                                                                   )
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   fail
                                                                   (abs
@@ -5860,64 +5863,64 @@
                                                                 ]
                                                               )
                                                             ]
-                                                            (lam thunk Unit EQ)
+                                                            (abs dead (type) EQ)
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                             ]
-                                            Unit
-                                          ]
+                                            (all dead (type) dead)
+                                          }
                                         )
                                       )
                                     ]
-                                    (lam
-                                      thunk
-                                      Unit
-                                      [
+                                    (abs
+                                      dead
+                                      (type)
+                                      {
                                         [
                                           [
                                             [
                                               {
                                                 [ { Extended_match a } ds ]
-                                                (fun Unit Ordering)
+                                                (all dead (type) Ordering)
                                               }
                                               (lam
                                                 default_arg0
                                                 a
-                                                (lam thunk Unit LT)
+                                                (abs dead (type) LT)
                                               )
                                             ]
-                                            (lam thunk Unit EQ)
+                                            (abs dead (type) EQ)
                                           ]
-                                          (lam thunk Unit LT)
+                                          (abs dead (type) LT)
                                         ]
-                                        Unit
-                                      ]
+                                        (all dead (type) dead)
+                                      }
                                     )
                                   ]
-                                  (lam
-                                    thunk
-                                    Unit
-                                    [
+                                  (abs
+                                    dead
+                                    (type)
+                                    {
                                       [
                                         [
                                           [
                                             {
                                               [ { Extended_match a } ds ]
-                                              (fun Unit Ordering)
+                                              (all dead (type) Ordering)
                                             }
                                             (lam
                                               default_arg0
                                               a
-                                              (lam
-                                                thunk
-                                                Unit
+                                              (abs
+                                                dead
+                                                (type)
                                                 (let
                                                   (nonrec)
                                                   (termbind
@@ -5929,7 +5932,7 @@
                                                     (lam
                                                       ds
                                                       (all a (type) a)
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             [
@@ -5941,15 +5944,15 @@
                                                                   }
                                                                   ds
                                                                 ]
-                                                                (fun Unit Ordering)
+                                                                (all dead (type) Ordering)
                                                               }
                                                               (lam
                                                                 default_arg0
                                                                 a
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
-                                                                  [
+                                                                (abs
+                                                                  dead
+                                                                  (type)
+                                                                  {
                                                                     [
                                                                       [
                                                                         [
@@ -5961,15 +5964,15 @@
                                                                               }
                                                                               ds
                                                                             ]
-                                                                            (fun Unit Ordering)
+                                                                            (all dead (type) Ordering)
                                                                           }
                                                                           (lam
                                                                             l
                                                                             a
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
-                                                                              [
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
+                                                                              {
                                                                                 [
                                                                                   [
                                                                                     [
@@ -5981,14 +5984,14 @@
                                                                                           }
                                                                                           ds
                                                                                         ]
-                                                                                        (fun Unit Ordering)
+                                                                                        (all dead (type) Ordering)
                                                                                       }
                                                                                       (lam
                                                                                         r
                                                                                         a
-                                                                                        (lam
-                                                                                          thunk
-                                                                                          Unit
+                                                                                        (abs
+                                                                                          dead
+                                                                                          (type)
                                                                                           [
                                                                                             [
                                                                                               [
@@ -6005,9 +6008,9 @@
                                                                                         )
                                                                                       )
                                                                                     ]
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         fail
                                                                                         (abs
@@ -6020,9 +6023,9 @@
                                                                                       ]
                                                                                     )
                                                                                   ]
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     [
                                                                                       fail
                                                                                       (abs
@@ -6035,14 +6038,14 @@
                                                                                     ]
                                                                                   )
                                                                                 ]
-                                                                                Unit
-                                                                              ]
+                                                                                (all dead (type) dead)
+                                                                              }
                                                                             )
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             fail
                                                                             (abs
@@ -6055,21 +6058,21 @@
                                                                           ]
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         GT
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             ]
-                                                            (lam
-                                                              thunk
-                                                              Unit
-                                                              [
+                                                            (abs
+                                                              dead
+                                                              (type)
+                                                              {
                                                                 [
                                                                   [
                                                                     [
@@ -6081,15 +6084,15 @@
                                                                           }
                                                                           ds
                                                                         ]
-                                                                        (fun Unit Ordering)
+                                                                        (all dead (type) Ordering)
                                                                       }
                                                                       (lam
                                                                         l
                                                                         a
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
-                                                                          [
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
+                                                                          {
                                                                             [
                                                                               [
                                                                                 [
@@ -6101,14 +6104,14 @@
                                                                                       }
                                                                                       ds
                                                                                     ]
-                                                                                    (fun Unit Ordering)
+                                                                                    (all dead (type) Ordering)
                                                                                   }
                                                                                   (lam
                                                                                     r
                                                                                     a
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       [
                                                                                         [
                                                                                           [
@@ -6125,9 +6128,9 @@
                                                                                     )
                                                                                   )
                                                                                 ]
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   [
                                                                                     fail
                                                                                     (abs
@@ -6140,9 +6143,9 @@
                                                                                   ]
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   fail
                                                                                   (abs
@@ -6155,14 +6158,14 @@
                                                                                 ]
                                                                               )
                                                                             ]
-                                                                            Unit
-                                                                          ]
+                                                                            (all dead (type) dead)
+                                                                          }
                                                                         )
                                                                       )
                                                                     ]
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       [
                                                                         fail
                                                                         (abs
@@ -6175,23 +6178,23 @@
                                                                       ]
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     GT
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           ]
-                                                          (lam thunk Unit LT)
+                                                          (abs dead (type) LT)
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         [
@@ -6202,14 +6205,14 @@
                                                               }
                                                               ds
                                                             ]
-                                                            (fun Unit Ordering)
+                                                            (all dead (type) Ordering)
                                                           }
                                                           (lam
                                                             default_arg0
                                                             a
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               [
                                                                 fail
                                                                 (abs
@@ -6221,9 +6224,9 @@
                                                             )
                                                           )
                                                         ]
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           [
                                                             fail
                                                             (abs
@@ -6232,10 +6235,10 @@
                                                           ]
                                                         )
                                                       ]
-                                                      (lam
-                                                        thunk
-                                                        Unit
-                                                        [
+                                                      (abs
+                                                        dead
+                                                        (type)
+                                                        {
                                                           [
                                                             [
                                                               [
@@ -6247,14 +6250,14 @@
                                                                     }
                                                                     ds
                                                                   ]
-                                                                  (fun Unit Ordering)
+                                                                  (all dead (type) Ordering)
                                                                 }
                                                                 (lam
                                                                   default_arg0
                                                                   a
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       fail
                                                                       (abs
@@ -6267,9 +6270,9 @@
                                                                   )
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   fail
                                                                   (abs
@@ -6280,23 +6283,23 @@
                                                                 ]
                                                               )
                                                             ]
-                                                            (lam thunk Unit EQ)
+                                                            (abs dead (type) EQ)
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                             )
                                           ]
-                                          (lam thunk Unit GT)
+                                          (abs dead (type) GT)
                                         ]
-                                        (lam
-                                          thunk
-                                          Unit
+                                        (abs
+                                          dead
+                                          (type)
                                           (let
                                             (nonrec)
                                             (termbind
@@ -6308,7 +6311,7 @@
                                               (lam
                                                 ds
                                                 (all a (type) a)
-                                                [
+                                                {
                                                   [
                                                     [
                                                       [
@@ -6317,15 +6320,15 @@
                                                             { Extended_match a }
                                                             ds
                                                           ]
-                                                          (fun Unit Ordering)
+                                                          (all dead (type) Ordering)
                                                         }
                                                         (lam
                                                           default_arg0
                                                           a
-                                                          (lam
-                                                            thunk
-                                                            Unit
-                                                            [
+                                                          (abs
+                                                            dead
+                                                            (type)
+                                                            {
                                                               [
                                                                 [
                                                                   [
@@ -6337,15 +6340,15 @@
                                                                         }
                                                                         ds
                                                                       ]
-                                                                      (fun Unit Ordering)
+                                                                      (all dead (type) Ordering)
                                                                     }
                                                                     (lam
                                                                       l
                                                                       a
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
-                                                                        [
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
+                                                                        {
                                                                           [
                                                                             [
                                                                               [
@@ -6357,14 +6360,14 @@
                                                                                     }
                                                                                     ds
                                                                                   ]
-                                                                                  (fun Unit Ordering)
+                                                                                  (all dead (type) Ordering)
                                                                                 }
                                                                                 (lam
                                                                                   r
                                                                                   a
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     [
                                                                                       [
                                                                                         [
@@ -6381,9 +6384,9 @@
                                                                                   )
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   fail
                                                                                   (abs
@@ -6396,9 +6399,9 @@
                                                                                 ]
                                                                               )
                                                                             ]
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               [
                                                                                 fail
                                                                                 (abs
@@ -6411,14 +6414,14 @@
                                                                               ]
                                                                             )
                                                                           ]
-                                                                          Unit
-                                                                        ]
+                                                                          (all dead (type) dead)
+                                                                        }
                                                                       )
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       fail
                                                                       (abs
@@ -6430,19 +6433,19 @@
                                                                     ]
                                                                   )
                                                                 ]
-                                                                (lam
-                                                                  thunk Unit GT
+                                                                (abs
+                                                                  dead (type) GT
                                                                 )
                                                               ]
-                                                              Unit
-                                                            ]
+                                                              (all dead (type) dead)
+                                                            }
                                                           )
                                                         )
                                                       ]
-                                                      (lam
-                                                        thunk
-                                                        Unit
-                                                        [
+                                                      (abs
+                                                        dead
+                                                        (type)
+                                                        {
                                                           [
                                                             [
                                                               [
@@ -6454,15 +6457,15 @@
                                                                     }
                                                                     ds
                                                                   ]
-                                                                  (fun Unit Ordering)
+                                                                  (all dead (type) Ordering)
                                                                 }
                                                                 (lam
                                                                   l
                                                                   a
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
-                                                                    [
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
+                                                                    {
                                                                       [
                                                                         [
                                                                           [
@@ -6474,14 +6477,14 @@
                                                                                 }
                                                                                 ds
                                                                               ]
-                                                                              (fun Unit Ordering)
+                                                                              (all dead (type) Ordering)
                                                                             }
                                                                             (lam
                                                                               r
                                                                               a
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   [
                                                                                     [
@@ -6498,9 +6501,9 @@
                                                                               )
                                                                             )
                                                                           ]
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               fail
                                                                               (abs
@@ -6513,9 +6516,9 @@
                                                                             ]
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             fail
                                                                             (abs
@@ -6528,14 +6531,14 @@
                                                                           ]
                                                                         )
                                                                       ]
-                                                                      Unit
-                                                                    ]
+                                                                      (all dead (type) dead)
+                                                                    }
                                                                   )
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   fail
                                                                   (abs
@@ -6546,19 +6549,19 @@
                                                                 ]
                                                               )
                                                             ]
-                                                            (lam thunk Unit GT)
+                                                            (abs dead (type) GT)
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     ]
-                                                    (lam thunk Unit LT)
+                                                    (abs dead (type) LT)
                                                   ]
-                                                  Unit
-                                                ]
+                                                  (all dead (type) dead)
+                                                }
                                               )
                                             )
-                                            [
+                                            {
                                               [
                                                 [
                                                   [
@@ -6566,14 +6569,14 @@
                                                       [
                                                         { Extended_match a } ds
                                                       ]
-                                                      (fun Unit Ordering)
+                                                      (all dead (type) Ordering)
                                                     }
                                                     (lam
                                                       default_arg0
                                                       a
-                                                      (lam
-                                                        thunk
-                                                        Unit
+                                                      (abs
+                                                        dead
+                                                        (type)
                                                         [
                                                           fail
                                                           (abs
@@ -6583,19 +6586,19 @@
                                                       )
                                                     )
                                                   ]
-                                                  (lam
-                                                    thunk
-                                                    Unit
+                                                  (abs
+                                                    dead
+                                                    (type)
                                                     [
                                                       fail
                                                       (abs e (type) (error e))
                                                     ]
                                                   )
                                                 ]
-                                                (lam
-                                                  thunk
-                                                  Unit
-                                                  [
+                                                (abs
+                                                  dead
+                                                  (type)
+                                                  {
                                                     [
                                                       [
                                                         [
@@ -6606,14 +6609,14 @@
                                                               }
                                                               ds
                                                             ]
-                                                            (fun Unit Ordering)
+                                                            (all dead (type) Ordering)
                                                           }
                                                           (lam
                                                             default_arg0
                                                             a
-                                                            (lam
-                                                              thunk
-                                                              Unit
+                                                            (abs
+                                                              dead
+                                                              (type)
                                                               [
                                                                 fail
                                                                 (abs
@@ -6625,9 +6628,9 @@
                                                             )
                                                           )
                                                         ]
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           [
                                                             fail
                                                             (abs
@@ -6636,23 +6639,23 @@
                                                           ]
                                                         )
                                                       ]
-                                                      (lam thunk Unit EQ)
+                                                      (abs dead (type) EQ)
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               ]
-                                              Unit
-                                            ]
+                                              (all dead (type) dead)
+                                            }
                                           )
                                         )
                                       ]
-                                      Unit
-                                    ]
+                                      (all dead (type) dead)
+                                    }
                                   )
                                 ]
-                                Unit
-                              ]
+                                (all dead (type) dead)
+                              }
                             )
                           )
                         )
@@ -6693,7 +6696,7 @@
                                       (lam
                                         in
                                         Bool
-                                        [
+                                        {
                                           [
                                             [
                                               [
@@ -6711,32 +6714,32 @@
                                                       v
                                                     ]
                                                   ]
-                                                  (fun Unit Bool)
+                                                  (all dead (type) Bool)
                                                 }
-                                                (lam
-                                                  thunk
-                                                  Unit
-                                                  [
+                                                (abs
+                                                  dead
+                                                  (type)
+                                                  {
                                                     [
                                                       [
                                                         {
                                                           [ Bool_match in ]
-                                                          (fun Unit Bool)
+                                                          (all dead (type) Bool)
                                                         }
-                                                        (lam thunk Unit in)
+                                                        (abs dead (type) in)
                                                       ]
-                                                      (lam thunk Unit True)
+                                                      (abs dead (type) True)
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               ]
-                                              (lam thunk Unit False)
+                                              (abs dead (type) False)
                                             ]
-                                            (lam thunk Unit True)
+                                            (abs dead (type) True)
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     )
                                   ]
@@ -6801,7 +6804,7 @@
                                                   (lam
                                                     in
                                                     Bool
-                                                    [
+                                                    {
                                                       [
                                                         [
                                                           [
@@ -6822,12 +6825,12 @@
                                                                   v
                                                                 ]
                                                               ]
-                                                              (fun Unit Bool)
+                                                              (all dead (type) Bool)
                                                             }
-                                                            (lam
-                                                              thunk
-                                                              Unit
-                                                              [
+                                                            (abs
+                                                              dead
+                                                              (type)
+                                                              {
                                                                 [
                                                                   [
                                                                     {
@@ -6835,12 +6838,12 @@
                                                                         Bool_match
                                                                         in
                                                                       ]
-                                                                      (fun Unit Bool)
+                                                                      (all dead (type) Bool)
                                                                     }
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
-                                                                      [
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
+                                                                      {
                                                                         [
                                                                           [
                                                                             {
@@ -6848,11 +6851,11 @@
                                                                                 Bool_match
                                                                                 in
                                                                               ]
-                                                                              (fun Unit Bool)
+                                                                              (all dead (type) Bool)
                                                                             }
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               [
                                                                                 [
                                                                                   [
@@ -6868,19 +6871,19 @@
                                                                               ]
                                                                             )
                                                                           ]
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             False
                                                                           )
                                                                         ]
-                                                                        Unit
-                                                                      ]
+                                                                        (all dead (type) dead)
+                                                                      }
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       [
                                                                         [
@@ -6896,15 +6899,16 @@
                                                                     ]
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           ]
-                                                          (lam thunk Unit False)
+                                                          (abs dead (type) False
+                                                          )
                                                         ]
-                                                        (lam
-                                                          thunk
-                                                          Unit
+                                                        (abs
+                                                          dead
+                                                          (type)
                                                           [
                                                             [
                                                               [
@@ -6920,8 +6924,8 @@
                                                           ]
                                                         )
                                                       ]
-                                                      Unit
-                                                    ]
+                                                      (all dead (type) dead)
+                                                    }
                                                   )
                                                 )
                                               ]
@@ -7005,7 +7009,7 @@
                                             (lam
                                               ds
                                               (con bytestring)
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -7052,7 +7056,7 @@
                                                                   (lam
                                                                     ds
                                                                     (con data)
-                                                                    [
+                                                                    {
                                                                       [
                                                                         [
                                                                           {
@@ -7082,11 +7086,11 @@
                                                                                 False
                                                                               ]
                                                                             ]
-                                                                            (fun Unit [Maybe [[Tuple2 (con bytestring)] (con data)]])
+                                                                            (all dead (type) [Maybe [[Tuple2 (con bytestring)] (con data)]])
                                                                           }
-                                                                          (lam
-                                                                            thunk
-                                                                            Unit
+                                                                          (abs
+                                                                            dead
+                                                                            (type)
                                                                             [
                                                                               {
                                                                                 Just
@@ -7096,17 +7100,17 @@
                                                                             ]
                                                                           )
                                                                         ]
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           {
                                                                             Nothing
                                                                             [[Tuple2 (con bytestring)] (con data)]
                                                                           }
                                                                         )
                                                                       ]
-                                                                      Unit
-                                                                    ]
+                                                                      (all dead (type) dead)
+                                                                    }
                                                                   )
                                                                 )
                                                               ]
@@ -7115,14 +7119,14 @@
                                                           ds
                                                         ]
                                                       ]
-                                                      (fun Unit [Maybe (con data)])
+                                                      (all dead (type) [Maybe (con data)])
                                                     }
                                                     (lam
                                                       a
                                                       [[Tuple2 (con bytestring)] (con data)]
-                                                      (lam
-                                                        thunk
-                                                        Unit
+                                                      (abs
+                                                        dead
+                                                        (type)
                                                         [
                                                           { Just (con data) }
                                                           [
@@ -7151,14 +7155,14 @@
                                                       )
                                                     )
                                                   ]
-                                                  (lam
-                                                    thunk
-                                                    Unit
+                                                  (abs
+                                                    dead
+                                                    (type)
                                                     { Nothing (con data) }
                                                   )
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           )
                                         )
@@ -7243,7 +7247,7 @@
                                                         (lam
                                                           ds
                                                           TxOut
-                                                          [
+                                                          {
                                                             [
                                                               [
                                                                 {
@@ -7257,11 +7261,11 @@
                                                                       outRef
                                                                     ]
                                                                   ]
-                                                                  (fun Unit [Maybe TxInInfo])
+                                                                  (all dead (type) [Maybe TxInInfo])
                                                                 }
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
+                                                                (abs
+                                                                  dead
+                                                                  (type)
                                                                   [
                                                                     {
                                                                       Just
@@ -7271,17 +7275,17 @@
                                                                   ]
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 {
                                                                   Nothing
                                                                   TxInInfo
                                                                 }
                                                               )
                                                             ]
-                                                            Unit
-                                                          ]
+                                                            (all dead (type) dead)
+                                                          }
                                                         )
                                                       )
                                                     ]
@@ -7367,7 +7371,7 @@
                                             (lam
                                               ds
                                               (con bytestring)
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -7394,7 +7398,7 @@
                                                             (lam
                                                               x
                                                               (con bytestring)
-                                                              [
+                                                              {
                                                                 [
                                                                   [
                                                                     {
@@ -7424,11 +7428,11 @@
                                                                           False
                                                                         ]
                                                                       ]
-                                                                      (fun Unit [Maybe (con bytestring)])
+                                                                      (all dead (type) [Maybe (con bytestring)])
                                                                     }
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       [
                                                                         {
                                                                           Just
@@ -7438,34 +7442,34 @@
                                                                       ]
                                                                     )
                                                                   ]
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     {
                                                                       Nothing
                                                                       (con bytestring)
                                                                     }
                                                                   )
                                                                 ]
-                                                                Unit
-                                                              ]
+                                                                (all dead (type) dead)
+                                                              }
                                                             )
                                                           ]
                                                           ds
                                                         ]
                                                       ]
-                                                      (fun Unit Bool)
+                                                      (all dead (type) Bool)
                                                     }
                                                     (lam
                                                       ds
                                                       (con bytestring)
-                                                      (lam thunk Unit True)
+                                                      (abs dead (type) True)
                                                     )
                                                   ]
-                                                  (lam thunk Unit False)
+                                                  (abs dead (type) False)
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           )
                                         )
@@ -7557,7 +7561,7 @@
                                                 (lam
                                                   i
                                                   (con integer)
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         {
@@ -7587,14 +7591,15 @@
                                                               False
                                                             ]
                                                           ]
-                                                          (fun Unit (con integer))
+                                                          (all dead (type) (con integer))
                                                         }
-                                                        (lam thunk Unit i)
+                                                        (abs dead (type) i)
                                                       ]
-                                                      (lam thunk Unit [ go xs ])
+                                                      (abs dead (type) [ go xs ]
+                                                      )
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                             ]
@@ -7657,7 +7662,7 @@
                                             (lam
                                               i
                                               [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -7687,14 +7692,14 @@
                                                           False
                                                         ]
                                                       ]
-                                                      (fun Unit (con integer))
+                                                      (all dead (type) (con integer))
                                                     }
-                                                    (lam thunk Unit [ j i ])
+                                                    (abs dead (type) [ j i ])
                                                   ]
-                                                  (lam thunk Unit [ go xs ])
+                                                  (abs dead (type) [ go xs ])
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           )
                                         ]
@@ -7736,11 +7741,14 @@
                                 (lam
                                   ds
                                   [List a]
-                                  [
+                                  {
                                     [
                                       [
-                                        { [ { Nil_match a } ds ] (fun Unit b) }
-                                        (lam thunk Unit z)
+                                        {
+                                          [ { Nil_match a } ds ]
+                                          (all dead (type) b)
+                                        }
+                                        (abs dead (type) z)
                                       ]
                                       (lam
                                         y
@@ -7748,12 +7756,13 @@
                                         (lam
                                           ys
                                           [List a]
-                                          (lam thunk Unit [ [ k y ] [ go ys ] ])
+                                          (abs dead (type) [ [ k y ] [ go ys ] ]
+                                          )
                                         )
                                       )
                                     ]
-                                    Unit
-                                  ]
+                                    (all dead (type) dead)
+                                  }
                                 )
                               )
                               go
@@ -7863,7 +7872,7 @@
                                                                           (lam
                                                                             pk
                                                                             (con bytestring)
-                                                                            [
+                                                                            {
                                                                               [
                                                                                 [
                                                                                   {
@@ -7893,11 +7902,11 @@
                                                                                         False
                                                                                       ]
                                                                                     ]
-                                                                                    (fun Unit [List [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
+                                                                                    (all dead (type) [List [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]])
                                                                                   }
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     [
                                                                                       [
                                                                                         {
@@ -7910,14 +7919,14 @@
                                                                                     ]
                                                                                   )
                                                                                 ]
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   xs
                                                                                 )
                                                                               ]
-                                                                              Unit
-                                                                            ]
+                                                                              (all dead (type) dead)
+                                                                            }
                                                                           )
                                                                         ]
                                                                         (lam
@@ -8156,7 +8165,7 @@
                                                     (lam
                                                       pubKey
                                                       (con bytestring)
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -8170,14 +8179,15 @@
                                                                   pubKey
                                                                 ]
                                                               ]
-                                                              (fun Unit Bool)
+                                                              (all dead (type) Bool)
                                                             }
-                                                            (lam thunk Unit True
+                                                            (abs
+                                                              dead (type) True
                                                             )
                                                           ]
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               [
                                                                 {
@@ -8199,8 +8209,8 @@
                                                             ]
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   ]
                                                   (lam
@@ -8233,7 +8243,7 @@
                                                             False
                                                           ]
                                                         )
-                                                        [
+                                                        {
                                                           [
                                                             [
                                                               {
@@ -8250,15 +8260,15 @@
                                                                     ds
                                                                   ]
                                                                 ]
-                                                                (fun Unit Bool)
+                                                                (all dead (type) Bool)
                                                               }
                                                               (lam
                                                                 a
                                                                 (con data)
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
-                                                                  [
+                                                                (abs
+                                                                  dead
+                                                                  (type)
+                                                                  {
                                                                     [
                                                                       [
                                                                         {
@@ -8288,29 +8298,29 @@
                                                                               False
                                                                             ]
                                                                           ]
-                                                                          (fun Unit Bool)
+                                                                          (all dead (type) Bool)
                                                                         }
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           True
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         j
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             ]
-                                                            (lam thunk Unit j)
+                                                            (abs dead (type) j)
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     )
                                                   )
@@ -8350,7 +8360,7 @@
                                                                       (lam
                                                                         ds
                                                                         (con bytestring)
-                                                                        [
+                                                                        {
                                                                           [
                                                                             [
                                                                               {
@@ -8400,17 +8410,17 @@
                                                                                     ]
                                                                                   ]
                                                                                 ]
-                                                                                (fun Unit Bool)
+                                                                                (all dead (type) Bool)
                                                                               }
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 True
                                                                               )
                                                                             ]
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               [
                                                                                 [
                                                                                   {
@@ -8433,8 +8443,8 @@
                                                                               ]
                                                                             )
                                                                           ]
-                                                                          Unit
-                                                                        ]
+                                                                          (all dead (type) dead)
+                                                                        }
                                                                       )
                                                                     )
                                                                   )
@@ -8460,7 +8470,7 @@
                                                     (lam
                                                       v
                                                       (con integer)
-                                                      [
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -8548,14 +8558,15 @@
                                                                   False
                                                                 ]
                                                               ]
-                                                              (fun Unit Bool)
+                                                              (all dead (type) Bool)
                                                             }
-                                                            (lam thunk Unit True
+                                                            (abs
+                                                              dead (type) True
                                                             )
                                                           ]
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               [
                                                                 {
@@ -8577,8 +8588,8 @@
                                                             ]
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
                                                 )
@@ -8655,7 +8666,7 @@
                                                                         (lam
                                                                           ds
                                                                           (con bytestring)
-                                                                          [
+                                                                          {
                                                                             [
                                                                               [
                                                                                 {
@@ -8699,7 +8710,7 @@
                                                                                                 (lam
                                                                                                   ds
                                                                                                   [Maybe (con bytestring)]
-                                                                                                  [
+                                                                                                  {
                                                                                                     [
                                                                                                       [
                                                                                                         {
@@ -8710,15 +8721,15 @@
                                                                                                             }
                                                                                                             ds
                                                                                                           ]
-                                                                                                          (fun Unit Bool)
+                                                                                                          (all dead (type) Bool)
                                                                                                         }
                                                                                                         (lam
                                                                                                           svh
                                                                                                           (con bytestring)
-                                                                                                          (lam
-                                                                                                            thunk
-                                                                                                            Unit
-                                                                                                            [
+                                                                                                          (abs
+                                                                                                            dead
+                                                                                                            (type)
+                                                                                                            {
                                                                                                               [
                                                                                                                 [
                                                                                                                   {
@@ -8735,12 +8746,12 @@
                                                                                                                         vl
                                                                                                                       ]
                                                                                                                     ]
-                                                                                                                    (fun Unit Bool)
+                                                                                                                    (all dead (type) Bool)
                                                                                                                   }
-                                                                                                                  (lam
-                                                                                                                    thunk
-                                                                                                                    Unit
-                                                                                                                    [
+                                                                                                                  (abs
+                                                                                                                    dead
+                                                                                                                    (type)
+                                                                                                                    {
                                                                                                                       [
                                                                                                                         [
                                                                                                                           {
@@ -8751,15 +8762,15 @@
                                                                                                                               }
                                                                                                                               hsh
                                                                                                                             ]
-                                                                                                                            (fun Unit Bool)
+                                                                                                                            (all dead (type) Bool)
                                                                                                                           }
                                                                                                                           (lam
                                                                                                                             a
                                                                                                                             (con bytestring)
-                                                                                                                            (lam
-                                                                                                                              thunk
-                                                                                                                              Unit
-                                                                                                                              [
+                                                                                                                            (abs
+                                                                                                                              dead
+                                                                                                                              (type)
+                                                                                                                              {
                                                                                                                                 [
                                                                                                                                   [
                                                                                                                                     {
@@ -8789,11 +8800,11 @@
                                                                                                                                           False
                                                                                                                                         ]
                                                                                                                                       ]
-                                                                                                                                      (fun Unit Bool)
+                                                                                                                                      (all dead (type) Bool)
                                                                                                                                     }
-                                                                                                                                    (lam
-                                                                                                                                      thunk
-                                                                                                                                      Unit
+                                                                                                                                    (abs
+                                                                                                                                      dead
+                                                                                                                                      (type)
                                                                                                                                       [
                                                                                                                                         [
                                                                                                                                           fEqAddress_c
@@ -8803,46 +8814,46 @@
                                                                                                                                       ]
                                                                                                                                     )
                                                                                                                                   ]
-                                                                                                                                  (lam
-                                                                                                                                    thunk
-                                                                                                                                    Unit
+                                                                                                                                  (abs
+                                                                                                                                    dead
+                                                                                                                                    (type)
                                                                                                                                     False
                                                                                                                                   )
                                                                                                                                 ]
-                                                                                                                                Unit
-                                                                                                                              ]
+                                                                                                                                (all dead (type) dead)
+                                                                                                                              }
                                                                                                                             )
                                                                                                                           )
                                                                                                                         ]
-                                                                                                                        (lam
-                                                                                                                          thunk
-                                                                                                                          Unit
+                                                                                                                        (abs
+                                                                                                                          dead
+                                                                                                                          (type)
                                                                                                                           False
                                                                                                                         )
                                                                                                                       ]
-                                                                                                                      Unit
-                                                                                                                    ]
+                                                                                                                      (all dead (type) dead)
+                                                                                                                    }
                                                                                                                   )
                                                                                                                 ]
-                                                                                                                (lam
-                                                                                                                  thunk
-                                                                                                                  Unit
+                                                                                                                (abs
+                                                                                                                  dead
+                                                                                                                  (type)
                                                                                                                   False
                                                                                                                 )
                                                                                                               ]
-                                                                                                              Unit
-                                                                                                            ]
+                                                                                                              (all dead (type) dead)
+                                                                                                            }
                                                                                                           )
                                                                                                         )
                                                                                                       ]
-                                                                                                      (lam
-                                                                                                        thunk
-                                                                                                        Unit
+                                                                                                      (abs
+                                                                                                        dead
+                                                                                                        (type)
                                                                                                         False
                                                                                                       )
                                                                                                     ]
-                                                                                                    Unit
-                                                                                                  ]
+                                                                                                    (all dead (type) dead)
+                                                                                                  }
                                                                                                 )
                                                                                               )
                                                                                             )
@@ -8852,17 +8863,17 @@
                                                                                       ds
                                                                                     ]
                                                                                   ]
-                                                                                  (fun Unit Bool)
+                                                                                  (all dead (type) Bool)
                                                                                 }
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
                                                                                   True
                                                                                 )
                                                                               ]
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 [
                                                                                   [
                                                                                     {
@@ -8885,8 +8896,8 @@
                                                                                 ]
                                                                               )
                                                                             ]
-                                                                            Unit
-                                                                          ]
+                                                                            (all dead (type) dead)
+                                                                          }
                                                                         )
                                                                       )
                                                                     )
@@ -8909,7 +8920,7 @@
                                             (lam
                                               vl
                                               [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                              [
+                                              {
                                                 [
                                                   [
                                                     {
@@ -8929,13 +8940,13 @@
                                                           ]
                                                         ]
                                                       ]
-                                                      (fun Unit Bool)
+                                                      (all dead (type) Bool)
                                                     }
-                                                    (lam thunk Unit True)
+                                                    (abs dead (type) True)
                                                   ]
-                                                  (lam
-                                                    thunk
-                                                    Unit
+                                                  (abs
+                                                    dead
+                                                    (type)
                                                     [
                                                       [
                                                         {
@@ -8954,15 +8965,15 @@
                                                     ]
                                                   )
                                                 ]
-                                                Unit
-                                              ]
+                                                (all dead (type) dead)
+                                              }
                                             )
                                           )
                                         ]
                                         (lam
                                           vl
                                           [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                          [
+                                          {
                                             [
                                               [
                                                 {
@@ -8979,13 +8990,13 @@
                                                       [ valueProduced ds ]
                                                     ]
                                                   ]
-                                                  (fun Unit Bool)
+                                                  (all dead (type) Bool)
                                                 }
-                                                (lam thunk Unit True)
+                                                (abs dead (type) True)
                                               ]
-                                              (lam
-                                                thunk
-                                                Unit
+                                              (abs
+                                                dead
+                                                (type)
                                                 [
                                                   [
                                                     {
@@ -9003,14 +9014,14 @@
                                                 ]
                                               )
                                             ]
-                                            Unit
-                                          ]
+                                            (all dead (type) dead)
+                                          }
                                         )
                                       ]
                                       (lam
                                         vl
                                         [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                        [
+                                        {
                                           [
                                             [
                                               {
@@ -9130,13 +9141,13 @@
                                                     ]
                                                   ]
                                                 ]
-                                                (fun Unit Bool)
+                                                (all dead (type) Bool)
                                               }
-                                              (lam thunk Unit True)
+                                              (abs dead (type) True)
                                             ]
-                                            (lam
-                                              thunk
-                                              Unit
+                                            (abs
+                                              dead
+                                              (type)
                                               [
                                                 [
                                                   { (builtin chooseUnit) Bool }
@@ -9152,8 +9163,8 @@
                                               ]
                                             )
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     ]
                                     (lam
@@ -9178,7 +9189,7 @@
                                             False
                                           ]
                                         )
-                                        [
+                                        {
                                           [
                                             [
                                               {
@@ -9192,14 +9203,14 @@
                                                     ds
                                                   ]
                                                 ]
-                                                (fun Unit Bool)
+                                                (all dead (type) Bool)
                                               }
                                               (lam
                                                 a
                                                 TxInInfo
-                                                (lam
-                                                  thunk
-                                                  Unit
+                                                (abs
+                                                  dead
+                                                  (type)
                                                   [
                                                     {
                                                       [ TxInInfo_match a ] Bool
@@ -9224,7 +9235,7 @@
                                                               (lam
                                                                 ds
                                                                 [Maybe (con bytestring)]
-                                                                [
+                                                                {
                                                                   [
                                                                     [
                                                                       {
@@ -9235,26 +9246,26 @@
                                                                           }
                                                                           ds
                                                                         ]
-                                                                        (fun Unit Bool)
+                                                                        (all dead (type) Bool)
                                                                       }
                                                                       (lam
                                                                         ds
                                                                         (con bytestring)
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           j
                                                                         )
                                                                       )
                                                                     ]
-                                                                    (lam
-                                                                      thunk
-                                                                      Unit
+                                                                    (abs
+                                                                      dead
+                                                                      (type)
                                                                       True
                                                                     )
                                                                   ]
-                                                                  Unit
-                                                                ]
+                                                                  (all dead (type) dead)
+                                                                }
                                                               )
                                                             )
                                                           )
@@ -9265,10 +9276,10 @@
                                                 )
                                               )
                                             ]
-                                            (lam thunk Unit j)
+                                            (abs dead (type) j)
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     )
                                   ]
@@ -9278,7 +9289,7 @@
                                     (lam
                                       ds
                                       (con data)
-                                      [
+                                      {
                                         [
                                           [
                                             {
@@ -9291,15 +9302,15 @@
                                                   ds
                                                 ]
                                               ]
-                                              (fun Unit Bool)
+                                              (all dead (type) Bool)
                                             }
                                             (lam
-                                              ds TxInInfo (lam thunk Unit True)
+                                              ds TxInInfo (abs dead (type) True)
                                             )
                                           ]
-                                          (lam
-                                            thunk
-                                            Unit
+                                          (abs
+                                            dead
+                                            (type)
                                             [
                                               [
                                                 { (builtin chooseUnit) Bool }
@@ -9315,15 +9326,15 @@
                                             ]
                                           )
                                         ]
-                                        Unit
-                                      ]
+                                        (all dead (type) dead)
+                                      }
                                     )
                                   )
                                 ]
                                 (lam
                                   interval
                                   [Interval (con integer)]
-                                  [
+                                  {
                                     [
                                       [
                                         {
@@ -9386,13 +9397,13 @@
                                               ]
                                             ]
                                           ]
-                                          (fun Unit Bool)
+                                          (all dead (type) Bool)
                                         }
-                                        (lam thunk Unit True)
+                                        (abs dead (type) True)
                                       ]
-                                      (lam
-                                        thunk
-                                        Unit
+                                      (abs
+                                        dead
+                                        (type)
                                         [
                                           [
                                             { (builtin chooseUnit) Bool }
@@ -9408,8 +9419,8 @@
                                         ]
                                       )
                                     ]
-                                    Unit
-                                  ]
+                                    (all dead (type) dead)
+                                  }
                                 )
                               ]
                             )
@@ -9469,7 +9480,7 @@
                                             False
                                           ]
                                         )
-                                        [
+                                        {
                                           [
                                             [
                                               {
@@ -9497,12 +9508,12 @@
                                                     ds
                                                   ]
                                                 ]
-                                                (fun Unit Bool)
+                                                (all dead (type) Bool)
                                               }
-                                              (lam
-                                                thunk
-                                                Unit
-                                                [
+                                              (abs
+                                                dead
+                                                (type)
+                                                {
                                                   [
                                                     [
                                                       {
@@ -9537,12 +9548,12 @@
                                                             ds
                                                           ]
                                                         ]
-                                                        (fun Unit Bool)
+                                                        (all dead (type) Bool)
                                                       }
-                                                      (lam
-                                                        thunk
-                                                        Unit
-                                                        [
+                                                      (abs
+                                                        dead
+                                                        (type)
+                                                        {
                                                           [
                                                             [
                                                               {
@@ -9580,28 +9591,28 @@
                                                                     ds
                                                                   ]
                                                                 ]
-                                                                (fun Unit Bool)
+                                                                (all dead (type) Bool)
                                                               }
-                                                              (lam
-                                                                thunk Unit True
+                                                              (abs
+                                                                dead (type) True
                                                               )
                                                             ]
-                                                            (lam thunk Unit j)
+                                                            (abs dead (type) j)
                                                           ]
-                                                          Unit
-                                                        ]
+                                                          (all dead (type) dead)
+                                                        }
                                                       )
                                                     ]
-                                                    (lam thunk Unit j)
+                                                    (abs dead (type) j)
                                                   ]
-                                                  Unit
-                                                ]
+                                                  (all dead (type) dead)
+                                                }
                                               )
                                             ]
-                                            (lam thunk Unit j)
+                                            (abs dead (type) j)
                                           ]
-                                          Unit
-                                        ]
+                                          (all dead (type) dead)
+                                        }
                                       )
                                     )
                                   )
@@ -9633,7 +9644,7 @@
                           (lam
                             xs
                             [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]
-                            [
+                            {
                               [
                                 [
                                   {
@@ -9644,9 +9655,9 @@
                                       }
                                       xs
                                     ]
-                                    (fun Unit Bool)
+                                    (all dead (type) Bool)
                                   }
-                                  (lam thunk Unit True)
+                                  (abs dead (type) True)
                                 ]
                                 (lam
                                   ds
@@ -9654,9 +9665,9 @@
                                   (lam
                                     xs
                                     [List [[Tuple2 (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]]
-                                    (lam
-                                      thunk
-                                      Unit
+                                    (abs
+                                      dead
+                                      (type)
                                       [
                                         {
                                           [
@@ -9685,7 +9696,7 @@
                                                 (lam
                                                   xs
                                                   [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                  [
+                                                  {
                                                     [
                                                       [
                                                         {
@@ -9696,10 +9707,10 @@
                                                             }
                                                             xs
                                                           ]
-                                                          (fun Unit Bool)
+                                                          (all dead (type) Bool)
                                                         }
-                                                        (lam
-                                                          thunk Unit [ go xs ]
+                                                        (abs
+                                                          dead (type) [ go xs ]
                                                         )
                                                       ]
                                                       (lam
@@ -9708,9 +9719,9 @@
                                                         (lam
                                                           xs
                                                           [List [[Tuple2 (con bytestring)] (con integer)]]
-                                                          (lam
-                                                            thunk
-                                                            Unit
+                                                          (abs
+                                                            dead
+                                                            (type)
                                                             [
                                                               {
                                                                 [
@@ -9731,7 +9742,7 @@
                                                                 (lam
                                                                   x
                                                                   (con integer)
-                                                                  [
+                                                                  {
                                                                     [
                                                                       [
                                                                         {
@@ -9764,25 +9775,25 @@
                                                                               False
                                                                             ]
                                                                           ]
-                                                                          (fun Unit Bool)
+                                                                          (all dead (type) Bool)
                                                                         }
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           [
                                                                             go
                                                                             xs
                                                                           ]
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
                                                                         False
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             ]
@@ -9790,8 +9801,8 @@
                                                         )
                                                       )
                                                     ]
-                                                    Unit
-                                                  ]
+                                                    (all dead (type) dead)
+                                                  }
                                                 )
                                               )
                                               [ go x ]
@@ -9803,8 +9814,8 @@
                                   )
                                 )
                               ]
-                              Unit
-                            ]
+                              (all dead (type) dead)
+                            }
                           )
                         )
                         [ go ds ]
@@ -9861,19 +9872,19 @@
                             ]
                           )
                         )
-                        [
+                        {
                           [
                             [
                               {
                                 [ { Maybe_match TxInInfo } [ findOwnInput ds ] ]
-                                (fun Unit [[Tuple2 (con bytestring)] (con bytestring)])
+                                (all dead (type) [[Tuple2 (con bytestring)] (con bytestring)])
                               }
                               (lam
                                 ds
                                 TxInInfo
-                                (lam
-                                  thunk
-                                  Unit
+                                (abs
+                                  dead
+                                  (type)
                                   [
                                     {
                                       [ TxInInfo_match ds ]
@@ -9935,7 +9946,7 @@
                                                         (lam
                                                           s
                                                           (con bytestring)
-                                                          [
+                                                          {
                                                             [
                                                               [
                                                                 {
@@ -9946,14 +9957,14 @@
                                                                     }
                                                                     ds
                                                                   ]
-                                                                  (fun Unit [[Tuple2 (con bytestring)] (con bytestring)])
+                                                                  (all dead (type) [[Tuple2 (con bytestring)] (con bytestring)])
                                                                 }
                                                                 (lam
                                                                   dh
                                                                   (con bytestring)
-                                                                  (lam
-                                                                    thunk
-                                                                    Unit
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
                                                                     [
                                                                       [
                                                                         {
@@ -9970,9 +9981,9 @@
                                                                   )
                                                                 )
                                                               ]
-                                                              (lam
-                                                                thunk
-                                                                Unit
+                                                              (abs
+                                                                dead
+                                                                (type)
                                                                 [
                                                                   fail
                                                                   (abs
@@ -9983,8 +9994,8 @@
                                                                 ]
                                                               )
                                                             ]
-                                                            Unit
-                                                          ]
+                                                            (all dead (type) dead)
+                                                          }
                                                         )
                                                       ]
                                                     )
@@ -10000,10 +10011,10 @@
                                 )
                               )
                             ]
-                            (lam thunk Unit [ fail (abs e (type) (error e)) ])
+                            (abs dead (type) [ fail (abs e (type) (error e)) ])
                           ]
-                          Unit
-                        ]
+                          (all dead (type) dead)
+                        }
                       )
                     )
                   )
@@ -10051,19 +10062,19 @@
                     (lam
                       m
                       [Maybe ThreadToken]
-                      [
+                      {
                         [
                           [
                             {
                               [ { Maybe_match ThreadToken } m ]
-                              (fun Unit (fun (con bytestring) [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]))
+                              (all dead (type) (fun (con bytestring) [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]))
                             }
                             (lam
                               a
                               ThreadToken
-                              (lam
-                                thunk
-                                Unit
+                              (abs
+                                dead
+                                (type)
                                 (let
                                   (nonrec)
                                   (termbind
@@ -10129,10 +10140,10 @@
                               )
                             )
                           ]
-                          (lam thunk Unit b)
+                          (abs dead (type) b)
                         ]
-                        Unit
-                      ]
+                        (all dead (type) dead)
+                      }
                     )
                   )
                   (termbind
@@ -10179,7 +10190,7 @@
                                               vl
                                               [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
                                             )
-                                            [
+                                            {
                                               [
                                                 [
                                                   {
@@ -10187,14 +10198,14 @@
                                                       { Maybe_match TxInInfo }
                                                       [ findOwnInput w ]
                                                     ]
-                                                    (fun Unit [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]])
+                                                    (all dead (type) [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]])
                                                   }
                                                   (lam
                                                     a
                                                     TxInInfo
-                                                    (lam
-                                                      thunk
-                                                      Unit
+                                                    (abs
+                                                      dead
+                                                      (type)
                                                       [
                                                         {
                                                           [ TxInInfo_match a ]
@@ -10233,9 +10244,9 @@
                                                     )
                                                   )
                                                 ]
-                                                (lam
-                                                  thunk
-                                                  Unit
+                                                (abs
+                                                  dead
+                                                  (type)
                                                   [
                                                     {
                                                       error
@@ -10271,13 +10282,13 @@
                                                   ]
                                                 )
                                               ]
-                                              Unit
-                                            ]
+                                              (all dead (type) dead)
+                                            }
                                           )
                                           (termbind
                                             (nonstrict)
                                             (vardecl j Bool)
-                                            [
+                                            {
                                               [
                                                 [
                                                   {
@@ -10320,14 +10331,14 @@
                                                         w
                                                       ]
                                                     ]
-                                                    (fun Unit Bool)
+                                                    (all dead (type) Bool)
                                                   }
                                                   (lam
                                                     ds
                                                     [[Tuple2 [[TxConstraints Void] Void]] [State s]]
-                                                    (lam
-                                                      thunk
-                                                      Unit
+                                                    (abs
+                                                      dead
+                                                      (type)
                                                       [
                                                         {
                                                           [
@@ -10365,7 +10376,7 @@
                                                                 (lam
                                                                   ds
                                                                   [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] [[(lam k (type) (lam v (type) [List [[Tuple2 k] v]])) (con bytestring)] (con integer)]]
-                                                                  [
+                                                                  {
                                                                     [
                                                                       [
                                                                         {
@@ -10376,11 +10387,11 @@
                                                                               ds
                                                                             ]
                                                                           ]
-                                                                          (fun Unit Bool)
+                                                                          (all dead (type) Bool)
                                                                         }
-                                                                        (lam
-                                                                          thunk
-                                                                          Unit
+                                                                        (abs
+                                                                          dead
+                                                                          (type)
                                                                           (let
                                                                             (nonrec
                                                                             )
@@ -10391,7 +10402,7 @@
                                                                                 j
                                                                                 Bool
                                                                               )
-                                                                              [
+                                                                              {
                                                                                 [
                                                                                   [
                                                                                     {
@@ -10417,17 +10428,17 @@
                                                                                           w
                                                                                         ]
                                                                                       ]
-                                                                                      (fun Unit Bool)
+                                                                                      (all dead (type) Bool)
                                                                                     }
-                                                                                    (lam
-                                                                                      thunk
-                                                                                      Unit
+                                                                                    (abs
+                                                                                      dead
+                                                                                      (type)
                                                                                       True
                                                                                     )
                                                                                   ]
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     [
                                                                                       [
                                                                                         {
@@ -10450,10 +10461,10 @@
                                                                                     ]
                                                                                   )
                                                                                 ]
-                                                                                Unit
-                                                                              ]
+                                                                                (all dead (type) dead)
+                                                                              }
                                                                             )
-                                                                            [
+                                                                            {
                                                                               [
                                                                                 [
                                                                                   {
@@ -10464,18 +10475,18 @@
                                                                                         ds
                                                                                       ]
                                                                                     ]
-                                                                                    (fun Unit Bool)
+                                                                                    (all dead (type) Bool)
                                                                                   }
-                                                                                  (lam
-                                                                                    thunk
-                                                                                    Unit
+                                                                                  (abs
+                                                                                    dead
+                                                                                    (type)
                                                                                     j
                                                                                   )
                                                                                 ]
-                                                                                (lam
-                                                                                  thunk
-                                                                                  Unit
-                                                                                  [
+                                                                                (abs
+                                                                                  dead
+                                                                                  (type)
+                                                                                  {
                                                                                     [
                                                                                       [
                                                                                         {
@@ -10502,33 +10513,33 @@
                                                                                               False
                                                                                             ]
                                                                                           ]
-                                                                                          (fun Unit Bool)
+                                                                                          (all dead (type) Bool)
                                                                                         }
-                                                                                        (lam
-                                                                                          thunk
-                                                                                          Unit
+                                                                                        (abs
+                                                                                          dead
+                                                                                          (type)
                                                                                           j
                                                                                         )
                                                                                       ]
-                                                                                      (lam
-                                                                                        thunk
-                                                                                        Unit
+                                                                                      (abs
+                                                                                        dead
+                                                                                        (type)
                                                                                         False
                                                                                       )
                                                                                     ]
-                                                                                    Unit
-                                                                                  ]
+                                                                                    (all dead (type) dead)
+                                                                                  }
                                                                                 )
                                                                               ]
-                                                                              Unit
-                                                                            ]
+                                                                              (all dead (type) dead)
+                                                                            }
                                                                           )
                                                                         )
                                                                       ]
-                                                                      (lam
-                                                                        thunk
-                                                                        Unit
-                                                                        [
+                                                                      (abs
+                                                                        dead
+                                                                        (type)
+                                                                        {
                                                                           [
                                                                             [
                                                                               {
@@ -10644,17 +10655,17 @@
                                                                                     w
                                                                                   ]
                                                                                 ]
-                                                                                (fun Unit Bool)
+                                                                                (all dead (type) Bool)
                                                                               }
-                                                                              (lam
-                                                                                thunk
-                                                                                Unit
+                                                                              (abs
+                                                                                dead
+                                                                                (type)
                                                                                 True
                                                                               )
                                                                             ]
-                                                                            (lam
-                                                                              thunk
-                                                                              Unit
+                                                                            (abs
+                                                                              dead
+                                                                              (type)
                                                                               [
                                                                                 [
                                                                                   {
@@ -10677,12 +10688,12 @@
                                                                               ]
                                                                             )
                                                                           ]
-                                                                          Unit
-                                                                        ]
+                                                                          (all dead (type) dead)
+                                                                        }
                                                                       )
                                                                     ]
-                                                                    Unit
-                                                                  ]
+                                                                    (all dead (type) dead)
+                                                                  }
                                                                 )
                                                               )
                                                             ]
@@ -10692,9 +10703,9 @@
                                                     )
                                                   )
                                                 ]
-                                                (lam
-                                                  thunk
-                                                  Unit
+                                                (abs
+                                                  dead
+                                                  (type)
                                                   [
                                                     [
                                                       {
@@ -10713,13 +10724,13 @@
                                                   ]
                                                 )
                                               ]
-                                              Unit
-                                            ]
+                                              (all dead (type) dead)
+                                            }
                                           )
                                           (termbind
                                             (nonstrict)
                                             (vardecl j Bool)
-                                            [
+                                            {
                                               [
                                                 [
                                                   {
@@ -10729,15 +10740,15 @@
                                                       }
                                                       ww
                                                     ]
-                                                    (fun Unit Bool)
+                                                    (all dead (type) Bool)
                                                   }
                                                   (lam
                                                     threadToken
                                                     ThreadToken
-                                                    (lam
-                                                      thunk
-                                                      Unit
-                                                      [
+                                                    (abs
+                                                      dead
+                                                      (type)
+                                                      {
                                                         [
                                                           [
                                                             {
@@ -10799,14 +10810,14 @@
                                                                   False
                                                                 ]
                                                               ]
-                                                              (fun Unit Bool)
+                                                              (all dead (type) Bool)
                                                             }
-                                                            (lam thunk Unit j)
+                                                            (abs dead (type) j)
                                                           ]
-                                                          (lam
-                                                            thunk
-                                                            Unit
-                                                            [
+                                                          (abs
+                                                            dead
+                                                            (type)
+                                                            {
                                                               [
                                                                 [
                                                                   {
@@ -10833,33 +10844,35 @@
                                                                         False
                                                                       ]
                                                                     ]
-                                                                    (fun Unit Bool)
+                                                                    (all dead (type) Bool)
                                                                   }
-                                                                  (lam
-                                                                    thunk Unit j
+                                                                  (abs
+                                                                    dead
+                                                                    (type)
+                                                                    j
                                                                   )
                                                                 ]
-                                                                (lam
-                                                                  thunk
-                                                                  Unit
+                                                                (abs
+                                                                  dead
+                                                                  (type)
                                                                   False
                                                                 )
                                                               ]
-                                                              Unit
-                                                            ]
+                                                              (all dead (type) dead)
+                                                            }
                                                           )
                                                         ]
-                                                        Unit
-                                                      ]
+                                                        (all dead (type) dead)
+                                                      }
                                                     )
                                                   )
                                                 ]
-                                                (lam thunk Unit j)
+                                                (abs dead (type) j)
                                               ]
-                                              Unit
-                                            ]
+                                              (all dead (type) dead)
+                                            }
                                           )
-                                          [
+                                          {
                                             [
                                               [
                                                 {
@@ -10867,14 +10880,14 @@
                                                     Bool_match
                                                     [ [ [ ww w ] w ] w ]
                                                   ]
-                                                  (fun Unit Bool)
+                                                  (all dead (type) Bool)
                                                 }
-                                                (lam thunk Unit j)
+                                                (abs dead (type) j)
                                               ]
-                                              (lam
-                                                thunk
-                                                Unit
-                                                [
+                                              (abs
+                                                dead
+                                                (type)
+                                                {
                                                   [
                                                     [
                                                       {
@@ -10899,18 +10912,18 @@
                                                             False
                                                           ]
                                                         ]
-                                                        (fun Unit Bool)
+                                                        (all dead (type) Bool)
                                                       }
-                                                      (lam thunk Unit j)
+                                                      (abs dead (type) j)
                                                     ]
-                                                    (lam thunk Unit False)
+                                                    (abs dead (type) False)
                                                   ]
-                                                  Unit
-                                                ]
+                                                  (all dead (type) dead)
+                                                }
                                               )
                                             ]
-                                            Unit
-                                          ]
+                                            (all dead (type) dead)
+                                          }
                                         )
                                       )
                                     )
