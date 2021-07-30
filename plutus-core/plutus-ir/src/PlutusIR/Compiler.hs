@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE RankNTypes          #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeFamilies        #-}
 module PlutusIR.Compiler (
@@ -14,6 +15,9 @@ module PlutusIR.Compiler (
     noProvenance,
     CompilationOpts,
     coOptimize,
+    coPedantic,
+    coVerbose,
+    coDebug,
     coMaxSimplifierIterations,
     coSimplifierUnwrapCancel,
     coSimplifierBeta,
@@ -50,46 +54,80 @@ import qualified PlutusCore                         as PLC
 import           Control.Lens
 import           Control.Monad
 import           Control.Monad.Reader
+import           Debug.Trace                        (traceM)
 import           PlutusPrelude
+
+-- Simplifier passes
+data Pass uni fun =
+  Pass { _name      :: String
+       , _shouldRun :: forall m e a.   Compiling m e uni fun a => m Bool
+       , _pass      :: forall m e a b. Compiling m e uni fun a => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+       }
+
+when' :: Compiling m e uni fun a => Lens' CompilationOpts Bool -> m Bool
+when' coOpt = view (ccOpts . coOpt)
+
+applyPass :: (Compiling m e uni fun a, b ~ Provenance a) => Pass uni fun -> Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+applyPass pass term = do
+  isVerbose  <- view (ccOpts . coVerbose)
+  isDebug    <- view (ccOpts . coDebug)
+  isPedantic <- view (ccOpts . coPedantic)
+  let passName = _name pass
+  when (isVerbose || isDebug) (traceM ("  !!! " ++ passName))
+  when isDebug (do
+                   traceM ("    !!! Before " ++ passName)
+                   traceM (show (pretty term)))
+  term' <- _pass pass term
+  when isDebug (do
+                   traceM ("    !!! After " ++ passName)
+                   traceM (show (pretty term'))
+               )
+  when isPedantic (typeCheckTerm term')
+  pure term'
+
+applyPasses :: (Compiling m e uni fun a, b ~ Provenance a) => [Pass uni fun] -> Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+applyPasses passes = foldl' (>=>) pure (map applyPass passes)
+
+availablePasses :: [Pass uni fun]
+availablePasses =
+    [ Pass "unwrap cancel"        (when' coSimplifierUnwrapCancel)       (pure . Unwrap.unwrapCancel)
+    , Pass "beta"                 (when' coSimplifierBeta)               (pure . Beta.beta)
+    , Pass "inline"               (when' coSimplifierInline)             Inline.inline
+    , Pass "remove dead bindings" (when' coSimplifierRemoveDeadBindings) DeadCode.removeDeadBindings
+    ]
 
 -- | Actual simplifier
 simplify
-    :: forall m e uni fun a b. Compiling m e uni fun a
+    :: forall m e uni fun a b. (Compiling m e uni fun a, b ~ Provenance a)
     => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
 simplify term =
   do
-    selectedPasses <- map snd <$> filterM (shouldRunPass . fst) availablePasses
-    let pass = foldl' (>=>) pure selectedPasses
-    pass term
-  where
-    availablePasses
-      :: [(Getting Bool CompilationOpts Bool,
-           Term TyName Name uni fun b -> m (Term TyName Name uni fun b))
-         ]
-    availablePasses =
-      [ (coSimplifierUnwrapCancel       , pure . Unwrap.unwrapCancel)
-      , (coSimplifierBeta               , pure . Beta.beta)
-      , (coSimplifierInline             , Inline.inline)
-      , (coSimplifierRemoveDeadBindings , DeadCode.removeDeadBindings)
-      ]
-
-    shouldRunPass :: Getting Bool CompilationOpts Bool -> m Bool
-    shouldRunPass coOpt = view (ccOpts . coOpt)
+    selectedPasses <- filterM _shouldRun availablePasses
+    applyPasses selectedPasses term
 
 -- | Perform some simplification of a 'Term'.
 simplifyTerm
-  :: forall m e uni fun a b. Compiling m e uni fun a
+  :: forall m e uni fun a b. (Compiling m e uni fun a, b ~ Provenance a)
   => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
 simplifyTerm = runIfOpts $ DeadCode.removeDeadBindings >=> simplify'
     -- NOTE: we need at least one pass of dead code elimination
     where
         simplify' :: Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
         simplify' t = do
-            maxIterations <- asks $ view (ccOpts . coMaxSimplifierIterations)
+            maxIterations <- view (ccOpts . coMaxSimplifierIterations)
             simplifyNTimes maxIterations t
         -- Run the simplifier @n@ times
         simplifyNTimes :: Int -> Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
-        simplifyNTimes n = foldl' (>=>) pure (replicate n simplify)
+        simplifyNTimes n = foldl' (>=>) pure (map simplifyStep [1 .. n])
+        -- generate simplification step
+        simplifyStep :: Int -> Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+        simplifyStep i term = do
+          isVerbose <- view (ccOpts . coVerbose)
+          isDebug   <- view (ccOpts . coDebug)
+          -- TODO:  Continue here
+          when (isVerbose || isDebug) (traceM ("!!! simplifier pass " ++ show i))
+          simplify term
+
 
 -- | Perform floating/merging of lets in a 'Term' to their nearest lambda/Lambda/letStrictNonValue.
 -- Note: It assumes globally unique names

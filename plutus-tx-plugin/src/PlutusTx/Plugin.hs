@@ -62,6 +62,9 @@ data PluginOptions = PluginOptions {
     , poDumpPir                      :: Bool
     , poDumpPlc                      :: Bool
     , poOptimize                     :: Bool
+    , poPedantic                     :: Bool
+    , poVerbose                      :: Bool
+    , poDebug                        :: Bool
     , poMaxSimplifierIterations      :: Int
     , poSimplifierUnwrapCancel       :: Bool
     , poSimplifierBeta               :: Bool
@@ -134,6 +137,9 @@ parsePluginArgs args = do
             , poDumpPir = elem' "dump-pir"
             , poDumpPlc = elem' "dump-plc"
             , poOptimize = notElem' "dont-optimize"
+            , poPedantic = elem' "pedantic"
+            , poVerbose = elem' "verbose"
+            , poDebug = elem' "debug"
             , poMaxSimplifierIterations = maxIterations
             -- Simplifier Passes
             , poSimplifierUnwrapCancel = notElem' "no-simplifier-unwrap-cancel"
@@ -346,6 +352,9 @@ runCompiler opts expr = do
                       else Nothing
         pirCtx = PIR.toDefaultCompilationCtx plcTcConfig
                  & set (PIR.ccOpts . PIR.coOptimize) (poOptimize opts)
+                 & set (PIR.ccOpts . PIR.coPedantic) (poPedantic opts)
+                 & set (PIR.ccOpts . PIR.coVerbose) (poVerbose opts)
+                 & set (PIR.ccOpts . PIR.coDebug) (poDebug opts)
                  & set (PIR.ccOpts . PIR.coMaxSimplifierIterations) (poMaxSimplifierIterations opts)
                  & set PIR.ccTypeCheckConfig pirTcConfig
                  -- Simplifier options

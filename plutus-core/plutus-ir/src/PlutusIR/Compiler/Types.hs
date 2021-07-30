@@ -18,6 +18,7 @@ import           Control.Lens
 
 import qualified PlutusCore                    as PLC
 import qualified PlutusCore.MkPlc              as PLC
+import qualified PlutusCore.Pretty             as PLC
 import           PlutusCore.Quote
 import qualified PlutusCore.StdLib.Type        as Types
 import qualified PlutusCore.TypeCheck.Internal as PLC
@@ -42,6 +43,9 @@ instance PLC.HasTypeCheckConfig (PirTCConfig uni fun) uni fun where
 
 data CompilationOpts = CompilationOpts {
       _coOptimize                     :: Bool
+    , _coPedantic                     :: Bool
+    , _coVerbose                      :: Bool
+    , _coDebug                        :: Bool
     , _coMaxSimplifierIterations      :: Int
     -- Simplifier passes
     , _coSimplifierUnwrapCancel       :: Bool
@@ -53,7 +57,7 @@ data CompilationOpts = CompilationOpts {
 makeLenses ''CompilationOpts
 
 defaultCompilationOpts :: CompilationOpts
-defaultCompilationOpts = CompilationOpts True 8 True True True True
+defaultCompilationOpts = CompilationOpts True False False False 8 True True True True
 
 data CompilationCtx uni fun a = CompilationCtx {
     _ccOpts              :: CompilationOpts
@@ -125,6 +129,11 @@ type Compiling m e uni fun a =
     , Ord a
     , PLC.Typecheckable uni fun
     , PLC.GEq uni
+    -- Pretty printing instances
+    , PLC.Pretty fun
+    , PLC.Closed uni
+    , PLC.GShow uni
+    , uni `PLC.Everywhere` PLC.PrettyConst
     )
 
 type TermDef tyname name uni fun a = PLC.Def (PLC.VarDecl tyname name uni fun a) (PIR.Term tyname name uni fun a)
