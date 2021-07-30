@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TypeFamilies        #-}
 module PlutusIR.Compiler (
     compileTerm,
     compileToReadable,
@@ -13,6 +14,11 @@ module PlutusIR.Compiler (
     noProvenance,
     CompilationOpts,
     coOptimize,
+    coMaxSimplifierIterations,
+    coSimplifierUnwrapCancel,
+    coSimplifierBeta,
+    coSimplifierInline,
+    coSimplifierRemoveDeadBindings,
     defaultCompilationOpts,
     CompilationCtx,
     ccOpts,
@@ -40,24 +46,50 @@ import qualified PlutusIR.Transform.Unwrap          as Unwrap
 import           PlutusIR.TypeCheck.Internal
 
 import qualified PlutusCore                         as PLC
-import qualified PlutusCore.Constant.Meaning        as M
 
+import           Control.Lens
 import           Control.Monad
 import           Control.Monad.Reader
 import           PlutusPrelude
 
 -- | Actual simplifier
 simplify
-    :: (M.ToBuiltinMeaning uni fun, PLC.MonadQuote m)
+    :: forall m e uni fun a b. Compiling m e uni fun a
     => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
-simplify = DeadCode.removeDeadBindings <=< Inline.inline . Beta.beta . Unwrap.unwrapCancel
+simplify term =
+  do
+    selectedPasses <- map snd <$> filterM (shouldRunPass . fst) availablePasses
+    let pass = foldl' (>=>) pure selectedPasses
+    pass term
+  where
+    availablePasses
+      :: [(Getting Bool CompilationOpts Bool,
+           Term TyName Name uni fun b -> m (Term TyName Name uni fun b))
+         ]
+    availablePasses =
+      [ (coSimplifierUnwrapCancel       , pure . Unwrap.unwrapCancel)
+      , (coSimplifierBeta               , pure . Beta.beta)
+      , (coSimplifierInline             , Inline.inline)
+      , (coSimplifierRemoveDeadBindings , DeadCode.removeDeadBindings)
+      ]
+
+    shouldRunPass :: Getting Bool CompilationOpts Bool -> m Bool
+    shouldRunPass coOpt = view (ccOpts . coOpt)
 
 -- | Perform some simplification of a 'Term'.
-simplifyTerm :: Compiling m e uni fun a => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
-simplifyTerm = PLC.rename >=> runIfOpts simplify
--- Note: There was a bug in renamer handling non-rec terms, so we need to rename
--- again.
--- https://jira.iohk.io/browse/SCP-2156
+simplifyTerm
+  :: forall m e uni fun a b. Compiling m e uni fun a
+  => Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+simplifyTerm = runIfOpts $ DeadCode.removeDeadBindings >=> simplify'
+    -- NOTE: we need at least one pass of dead code elimination
+    where
+        simplify' :: Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+        simplify' t = do
+            maxIterations <- asks $ view (ccOpts . coMaxSimplifierIterations)
+            simplifyNTimes maxIterations t
+        -- Run the simplifier @n@ times
+        simplifyNTimes :: Int -> Term TyName Name uni fun b -> m (Term TyName Name uni fun b)
+        simplifyNTimes n = foldl' (>=>) pure (replicate n simplify)
 
 -- | Perform floating/merging of lets in a 'Term' to their nearest lambda/Lambda/letStrictNonValue.
 -- Note: It assumes globally unique names
@@ -66,7 +98,7 @@ floatTerm = runIfOpts $ pure . LetFloat.floatTerm
 
 -- | Typecheck a PIR Term iff the context demands it.
 -- Note: assumes globally unique names
-typeCheckTerm :: Compiling m e uni fun b => Term TyName Name uni fun (Provenance b) -> m ()
+typeCheckTerm :: (Compiling m e uni fun a, b ~ Provenance a) => Term TyName Name uni fun b -> m ()
 typeCheckTerm t = do
     mtcconfig <- asks _ccTypeCheckConfig
     case mtcconfig of
@@ -76,9 +108,10 @@ typeCheckTerm t = do
 -- | The 1st half of the PIR compiler pipeline up to floating/merging the lets.
 -- We stop momentarily here to give a chance to the tx-plugin
 -- to dump a "readable" version of pir (i.e. floated).
-compileToReadable :: Compiling m e uni fun a
-                  => Term TyName Name uni fun a
-                  -> m (Term TyName Name uni fun (Provenance a))
+compileToReadable
+  :: (Compiling m e uni fun a, b ~ Provenance a)
+  => Term TyName Name uni fun a
+  -> m (Term TyName Name uni fun b)
 compileToReadable =
     (pure . original)
     -- We need globally unique names for typechecking, floating, and compiling non-strict bindings
@@ -91,13 +124,17 @@ compileToReadable =
 -- | The 2nd half of the PIR compiler pipeline.
 -- Compiles a 'Term' into a PLC Term, by removing/translating step-by-step the PIR's language construsts to PLC.
 -- Note: the result *does* have globally unique names.
-compileReadableToPlc :: Compiling m e uni fun a => Term TyName Name uni fun (Provenance a) -> m (PLCTerm uni fun a)
+compileReadableToPlc :: (Compiling m e uni fun a, b ~ Provenance a) => Term TyName Name uni fun b -> m (PLCTerm uni fun a)
 compileReadableToPlc =
     NonStrict.compileNonStrictBindings
     >=> Let.compileLets Let.DataTypes
     >=> Let.compileLets Let.RecTerms
     -- We introduce some non-recursive let bindings while eliminating recursive let-bindings, so we
     -- can eliminate any of them which are unused here.
+    >=> PLC.rename
+    -- NOTE: There was a bug in renamer handling non-rec terms, so we need to
+    -- rename again.
+    -- https://jira.iohk.io/browse/SCP-2156
     >=> simplifyTerm
     >=> Let.compileLets Let.Types
     >=> Let.compileLets Let.NonRecTerms
