@@ -168,7 +168,7 @@ runConfigCommand contractHandler ConfigCommandArgs{ccaTrace, ccaPABConfig=config
               env <- ask @(Core.PABEnvironment (Builtin a) (App.AppEnv a))
 
               -- But first, spin up all the previous contracts
-              -- logInfo @(LM.AppMsg (Builtin a)) LM.RestoringPABState
+              logInfo @(LM.PABMultiAgentMsg (Builtin a)) LM.RestoringPABState
               case previousContracts of
                 Left err -> throwError err
                 Right ts -> do
@@ -176,7 +176,7 @@ runConfigCommand contractHandler ConfigCommandArgs{ccaTrace, ccaPABConfig=config
                       action <- buildPABAction @a @(App.AppEnv a) s cid args
                       liftIO . async $ Core.runPAB' env action
                       pure ()
-                    -- logInfo @(LM.AppMsg (Builtin a)) LM.PABStateRestored
+                    logInfo @(LM.PABMultiAgentMsg (Builtin a)) LM.PABStateRestored
 
               -- then, actually start the server.
               let walletClientEnv = App.walletClientEnv (Core.appEnv env)
