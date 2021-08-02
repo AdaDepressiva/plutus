@@ -19,20 +19,12 @@ Slot 1: 00000000-0000-4000-8000-000000000002 {Contract instance for wallet 3}:
           Contract log: String "Contributing Value (Map [(,Map [(\"\",100)])])"
 Slot 1: W2: Balancing an unbalanced transaction:
               Tx:
-<<<<<<< HEAD
-                Tx cb468b645cb481cfaeb3c0b26979e96f03d775c2f823df5f2aeda70f5dc11b12:
-=======
-                Tx efbacd612da80fd90bad5ba8c94a88735e8c65a7b8f3eba462f637379b450d32:
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                Tx 00a43f0b7e7c4cacfa682fdcdb45d9961e521eede0cb3661276dacd31bb74378:
                   {inputs:
                   collateral inputs:
                   outputs:
                     - Value (Map [(,Map [("",100)])]) addressed to
-<<<<<<< HEAD
-                      addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential)
-=======
-                      addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential)
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                      addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential)
                   mint: Value (Map [])
                   fee: Value (Map [])
                   mps:
@@ -42,39 +34,23 @@ Slot 1: W2: Balancing an unbalanced transaction:
                     "\151~\251\&5\171b\GS9\219\235rt\236w\149\163G\b\255M%\160\SUB\GS\240L\US'"}
               Requires signatures:
               Utxo index:
-<<<<<<< HEAD
-Slot 1: W2: Finished balancing. 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35
+Slot 1: W2: Finished balancing. 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd
 Slot 1: 00000000-0000-4000-8000-000000000003 {Contract instance for wallet 4}:
           Contract instance started
-Slot 1: W2: Submitting tx: 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35
-Slot 1: W2: TxSubmit: 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35
-=======
-Slot 1: W2: Finished balancing. 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82
-Slot 1: 00000000-0000-4000-8000-000000000003 {Contract instance for wallet 4}:
-          Contract instance started
-Slot 1: W2: Submitting tx: 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82
-Slot 1: W2: TxSubmit: 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+Slot 1: W2: Submitting tx: 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd
+Slot 1: W2: TxSubmit: 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd
 Slot 1: 00000000-0000-4000-8000-000000000003 {Contract instance for wallet 4}:
           Receive endpoint call on 'contribute' for Object (fromList [("contents",Array [Object (fromList [("getEndpointDescription",String "contribute")]),Object (fromList [("unEndpointValue",Object (fromList [("contribValue",Object (fromList [("getValue",Array [Array [Object (fromList [("unCurrencySymbol",String "")]),Array [Array [Object (fromList [("unTokenName",String "")]),Number 25.0]]]])]))]))])]),("tag",String "ExposeEndpointResp")])
 Slot 1: 00000000-0000-4000-8000-000000000003 {Contract instance for wallet 4}:
           Contract log: String "Contributing Value (Map [(,Map [(\"\",25)])])"
 Slot 1: W3: Balancing an unbalanced transaction:
               Tx:
-<<<<<<< HEAD
-                Tx 84bc53d63cc63cb97aee24f5f89a4bb4902d331505fc253f19326f92a9ab1698:
-=======
-                Tx 0ffa03050909631783ceb778a1f21b7a8a390cbcce44bdc26db3dedba5ab6c49:
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                Tx b1d1a9e57e7293265042cda5a5074f762649a92ddb1715580af5a2aa326ad490:
                   {inputs:
                   collateral inputs:
                   outputs:
                     - Value (Map [(,Map [("",100)])]) addressed to
-<<<<<<< HEAD
-                      addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential)
-=======
-                      addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential)
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                      addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential)
                   mint: Value (Map [])
                   fee: Value (Map [])
                   mps:
@@ -84,30 +60,17 @@ Slot 1: W3: Balancing an unbalanced transaction:
                     "\DEL\138v\192\235\170J\210\r\253\205Q\165\222\a\n\183q\244\191\&7\DEL,A\230\183\FS\n"}
               Requires signatures:
               Utxo index:
-<<<<<<< HEAD
-Slot 1: W3: Finished balancing. a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d
-Slot 1: W3: Submitting tx: a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d
-Slot 1: W3: TxSubmit: a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d
+Slot 1: W3: Finished balancing. eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265
+Slot 1: W3: Submitting tx: eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265
+Slot 1: W3: TxSubmit: eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265
 Slot 1: W4: Balancing an unbalanced transaction:
               Tx:
-                Tx 9cfc3393de0ce2f14123fa37e667cfa13c0d133cde8c0a226ee495fd902ccec3:
-=======
-Slot 1: W3: Finished balancing. cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207
-Slot 1: W3: Submitting tx: cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207
-Slot 1: W3: TxSubmit: cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207
-Slot 1: W4: Balancing an unbalanced transaction:
-              Tx:
-                Tx ba5f8df9620c16f7d11d85326dfa7c4572aec707d015ac69f0553647db3134a1:
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                Tx 1bf1b097309d2f2a2deb1ab506b426fa003b0cf6a903d122d0f0099b4402e053:
                   {inputs:
                   collateral inputs:
                   outputs:
                     - Value (Map [(,Map [("",25)])]) addressed to
-<<<<<<< HEAD
-                      addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential)
-=======
-                      addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential)
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                      addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential)
                   mint: Value (Map [])
                   fee: Value (Map [])
                   mps:
@@ -117,42 +80,23 @@ Slot 1: W4: Balancing an unbalanced transaction:
                     "\188\192\131\173\227\253\208\163r\203lC\239\NUL\239\STX\252\181.\149\&2\148\DC1\ETB\215`\157j"}
               Requires signatures:
               Utxo index:
-<<<<<<< HEAD
-Slot 1: W4: Finished balancing. 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b
-Slot 1: W4: Submitting tx: 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b
-Slot 1: W4: TxSubmit: 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b
-Slot 1: TxnValidate 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b
-Slot 1: TxnValidate a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d
-Slot 1: TxnValidate 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35
-=======
-Slot 1: W4: Finished balancing. 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca
-Slot 1: W4: Submitting tx: 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca
-Slot 1: W4: TxSubmit: 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca
-Slot 1: TxnValidate 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca
-Slot 1: TxnValidate cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207
-Slot 1: TxnValidate 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+Slot 1: W4: Finished balancing. 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5
+Slot 1: W4: Submitting tx: 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5
+Slot 1: W4: TxSubmit: 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5
+Slot 1: TxnValidate 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5
+Slot 1: TxnValidate eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265
+Slot 1: TxnValidate 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd
 Slot 20: 00000000-0000-4000-8000-000000000000 {Contract instance for wallet 1}:
            Contract log: String "Collecting funds"
 Slot 20: W1: Balancing an unbalanced transaction:
                Tx:
-<<<<<<< HEAD
-                 Tx 5d5eabf7679d6df5a775f404678b027cd3d387f2287d9d07d3ecec272e22b179:
+                 Tx 243a3cbdb8b7b4910b64363c329db5f840615619d928ed10d07490bd8bbf4d89:
                    {inputs:
-                      - 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b!1
+                      - 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5!1
                         <>
-                      - 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35!1
+                      - 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd!1
                         <>
-                      - a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d!1
-=======
-                 Tx 8270e7285e7a9900d61d907c88cfee859fc0c3273ab591100df2be809cdb2899:
-                   {inputs:
-                      - 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca!1
-                        <>
-                      - 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82!1
-                        <>
-                      - cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207!1
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+                      - eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265!1
                         <>
                    collateral inputs:
                    outputs:
@@ -164,36 +108,18 @@ Slot 20: W1: Balancing an unbalanced transaction:
                    data:}
                Requires signatures:
                Utxo index:
-<<<<<<< HEAD
-                 ( 51f5d56060c3eb8876ca70176581ce1a9104b2696426a9c124b1ae969a30340b!1
+                 ( 07e18183f201e1e3280a0f5c1193b5ef7d2af73fcf1f8b1537a4989632f49bb5!1
                  , - Value (Map [(,Map [("",25)])]) addressed to
-                     addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential) )
-                 ( 8f6cbda5ea4342d164a3155c0f925ede9a3757d4dfe60d304dc824fb4c28cc35!1
+                     addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential) )
+                 ( 4504bad13ba68dd2f6c2bb89ac853d803b3a4d1097efcd9d172a5f373f0a9acd!1
                  , - Value (Map [(,Map [("",100)])]) addressed to
-                     addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential) )
-                 ( a70d5b6a5ef15e134a84fc522cff4aa63d73418693fa083cc33832236188190d!1
+                     addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential) )
+                 ( eeb0035c8d629bc7616041505769bc2f00732caa2bc59b092dfe91c35e0e8265!1
                  , - Value (Map [(,Map [("",100)])]) addressed to
-                     addressed to ScriptCredential: 5697dbfcb4ca38c9c083a833359a40321d8f8bba86658b3ab7f661c6 (no staking credential) )
-Slot 20: W1: Finished balancing. 05b1140fc9c3e6b8ef316df04bc3a915d37c0d12ae1d734fb8625d8d977775c9
-Slot 20: W1: Submitting tx: 05b1140fc9c3e6b8ef316df04bc3a915d37c0d12ae1d734fb8625d8d977775c9
-Slot 20: W1: TxSubmit: 05b1140fc9c3e6b8ef316df04bc3a915d37c0d12ae1d734fb8625d8d977775c9
+                     addressed to ScriptCredential: 8b9a21a7d442fed8c1f536a3ce062085d40fe71b6aff2ebf38cdd10c (no staking credential) )
+Slot 20: W1: Finished balancing. 625e0e2577c0a07a698616ba725adfdbb2ca5d05ce78f8d0a8eeac108aef1c86
+Slot 20: W1: Submitting tx: 625e0e2577c0a07a698616ba725adfdbb2ca5d05ce78f8d0a8eeac108aef1c86
+Slot 20: W1: TxSubmit: 625e0e2577c0a07a698616ba725adfdbb2ca5d05ce78f8d0a8eeac108aef1c86
 Slot 20: 00000000-0000-4000-8000-000000000000 {Contract instance for wallet 1}:
            Contract instance stopped (no errors)
-Slot 20: TxnValidate 05b1140fc9c3e6b8ef316df04bc3a915d37c0d12ae1d734fb8625d8d977775c9
-=======
-                 ( 33fe6f4650ed4031ba707de04e1883a31f2a7b4253061648f59b1ebcb85345ca!1
-                 , - Value (Map [(,Map [("",25)])]) addressed to
-                     addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential) )
-                 ( 8930c853bcce98bf5e1f4882acf072fb1bb448bd56b84568b6a9b7df7e583c82!1
-                 , - Value (Map [(,Map [("",100)])]) addressed to
-                     addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential) )
-                 ( cbef84fcfd1dac5acb7e636132ac5ecbefe6998cb0cf5fccfc9185a25ff43207!1
-                 , - Value (Map [(,Map [("",100)])]) addressed to
-                     addressed to ScriptCredential: 8d60d187bd8354e63bcc5990bfe435f5b4fd3a03407e5f4d8ba473cf (no staking credential) )
-Slot 20: W1: Finished balancing. a7e72a087cc48a50abcc7e0f847a5f84631cc81a83c221da1553677b5295b47a
-Slot 20: W1: Submitting tx: a7e72a087cc48a50abcc7e0f847a5f84631cc81a83c221da1553677b5295b47a
-Slot 20: W1: TxSubmit: a7e72a087cc48a50abcc7e0f847a5f84631cc81a83c221da1553677b5295b47a
-Slot 20: 00000000-0000-4000-8000-000000000000 {Contract instance for wallet 1}:
-           Contract instance stopped (no errors)
-Slot 20: TxnValidate a7e72a087cc48a50abcc7e0f847a5f84631cc81a83c221da1553677b5295b47a
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+Slot 20: TxnValidate 625e0e2577c0a07a698616ba725adfdbb2ca5d05ce78f8d0a8eeac108aef1c86

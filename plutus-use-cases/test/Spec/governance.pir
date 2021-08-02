@@ -31,7 +31,6 @@
                 ]
               )
             ]
-<<<<<<< HEAD
             (lam
               thunk
               Unit
@@ -39,26 +38,6 @@
                 [ (builtin constrData) (con integer 0) ]
                 [ (builtin mkNilData) (con unit ()) ]
               ]
-=======
-          )
-        )
-        (termbind
-          (strict)
-          (vardecl
-            fToDataBuiltinByteString_ctoBuiltinData
-            (fun (con bytestring) (con data))
-          )
-          (lam b (con bytestring) [ (builtin bData) b ])
-        )
-        (datatypebind
-          (datatype
-            (tyvardecl Proposal (type))
-
-            Proposal_match
-            (vardecl
-              Proposal
-              (fun (con bytestring) (fun (con bytestring) (fun (con integer) Proposal)))
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
             )
           ]
           Unit
@@ -68,7 +47,8 @@
     (termbind
       (strict)
       (vardecl
-        fToDataByteString_ctoBuiltinData (fun (con bytestring) (con data))
+        fToDataBuiltinByteString_ctoBuiltinData
+        (fun (con bytestring) (con data))
       )
       (lam b (con bytestring) [ (builtin bData) b ])
     )
@@ -5567,6 +5547,13 @@
                         (strict)
                         (vardecl absurd (all a (type) (fun Void a)))
                         (abs a (type) (lam a Void { [ Void_match a ] a }))
+                      )
+                      (termbind
+                        (strict)
+                        (vardecl
+                          fToDataVoid_ctoBuiltinData (fun Void (con data))
+                        )
+                        (lam v Void [ { absurd (con data) } v ])
                       )
                       (termbind
                         (strict)
@@ -13444,10 +13431,7 @@
                                                                                                     }
                                                                                                     Void
                                                                                                   }
-                                                                                                  {
-                                                                                                    absurd
-                                                                                                    (con data)
-                                                                                                  }
+                                                                                                  fToDataVoid_ctoBuiltinData
                                                                                                 ]
                                                                                                 newConstraints
                                                                                               ]

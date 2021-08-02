@@ -101,19 +101,11 @@ Balances Carried Forward:
     Ada:      Lovelace:  100000000
 
 ==== Slot #1, Tx #0 ====
-<<<<<<< HEAD
-TxId:       0f0daff39b3e6bc67bd23558241dbf6c189fc02373eb288e8a2f6bca11b00e5a
+TxId:       8b0b7b3ddc0cb89ad975bb0b73df84aa53dd4662d2aeeb1c328c58301b73bbae
 Fee:        Ada:      Lovelace:  10
 Mint:       -
 Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840f24c6700fb3ea80eabe1f17676b408a81ca8...
-=======
-TxId:       fd417ee9a39a74b9ce505eeeb6cfb1f8dcd4474ae2fc25bd335a7acd7a57e6ac
-Fee:        Ada:      Lovelace:  10
-Mint:       -
-Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840df520792e8bd5d416d3212bc0371af2f8e8d...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 5840d141a217829998a0ed978a9e1525a7cf03d7...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
@@ -132,11 +124,7 @@ Outputs:
     Ada:      Lovelace:  99999982
 
   ---- Output 1 ----
-<<<<<<< HEAD
-  Destination:  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-  Destination:  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
 
@@ -182,90 +170,51 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
 
 ==== Slot #2, Tx #0 ====
-<<<<<<< HEAD
-TxId:       e3f698f1b64f90c75aa2743181175cdcb58dee6ecd1e118ce1fe3d1b5d7c3fa9
-Fee:        Ada:      Lovelace:  14831
-Mint:       30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
+TxId:       4919edc67220c73ea8e74ffe492d44de7c4d4dcb1909038c2f38f3124de159cd
+Fee:        Ada:      Lovelace:  14855
+Mint:       e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
 Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840a5c30a3a6e94fa69eaf7d2f2bbe11edce6a9...
-=======
-TxId:       3bbdc8cda57b3467cf52ae1c816d750da8302857e9723fd4e750062dfe7dfadc
-Fee:        Ada:      Lovelace:  15169
-Mint:       d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
-Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840edc3ebd1481e083d30e0b808db9fb1fb6223...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 5840e1c0225a992ec1bda22c0d37c8a2f615ab32...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
     Ada:      Lovelace:  99999982
   Source:
-<<<<<<< HEAD
-    Tx:     0f0daff39b3e6bc67bd23558241dbf6c189fc02373eb288e8a2f6bca11b00e5a
-=======
-    Tx:     fd417ee9a39a74b9ce505eeeb6cfb1f8dcd4474ae2fc25bd335a7acd7a57e6ac
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Tx:     8b0b7b3ddc0cb89ad975bb0b73df84aa53dd4662d2aeeb1c328c58301b73bbae
     Output #0
 
 
   ---- Input 1 ----
-<<<<<<< HEAD
-  Destination:  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
+  Destination:  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
   Source:
-    Tx:     0f0daff39b3e6bc67bd23558241dbf6c189fc02373eb288e8a2f6bca11b00e5a
+    Tx:     8b0b7b3ddc0cb89ad975bb0b73df84aa53dd4662d2aeeb1c328c58301b73bbae
     Output #1
-    Script: 5922dc0100003323322333222333222323322323...
-=======
-  Destination:  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
-  Value:
-    Ada:      Lovelace:  8
-  Source:
-    Tx:     fd417ee9a39a74b9ce505eeeb6cfb1f8dcd4474ae2fc25bd335a7acd7a57e6ac
-    Output #1
-    Script: 5927820100003323322333222333222323322323...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Script: 5922f30100003323322333222333222323322323...
 
 
 Outputs:
   ---- Output 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985151
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  -
-=======
-    Ada:      Lovelace:  99984813
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  -
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985127
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  -
 
   ---- Output 1 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
     Ada:      -
 
   ---- Output 2 ----
-  Destination:  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
-    Ada:      -
-
-  ---- Output 2 ----
-  Destination:  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
 
@@ -273,13 +222,8 @@ Outputs:
 Balances Carried Forward:
   PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985151
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
-=======
-    Ada:      Lovelace:  99984813
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985127
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
 
   PubKeyHash: 3c88c96ed5ab14b16a32771bcfcb49928a5557fc... (Wallet 10)
   Value:
@@ -317,60 +261,34 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
 
 ==== Slot #3, Tx #0 ====
-<<<<<<< HEAD
-TxId:       d422d95be23e29b223911f1accc87efcb53f402580f6992f99cdd10d4e59fabf
+TxId:       cc70755efce85293fc04d8d8b2b3758fb7978644744acb9d000d812191c2f99c
 Fee:        Ada:      Lovelace:  10
 Mint:       -
 Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840d335847339b0bcb716a8b1c6619c64e41107...
-=======
-TxId:       c10c90286f8cafb4c79d8ff1a1ad991db7b080c82c93169b96621d20325b1303
-Fee:        Ada:      Lovelace:  10
-Mint:       -
-Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 58400b1b04a60d11e953c6af8c09b01cc2a423f7...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 5840c926221f54eaddb11f7c19ec2378c70c83a4...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985151
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  -
+    Ada:      Lovelace:  99985127
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  -
   Source:
-    Tx:     e3f698f1b64f90c75aa2743181175cdcb58dee6ecd1e118ce1fe3d1b5d7c3fa9
-=======
-    Ada:      Lovelace:  99984813
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  -
-  Source:
-    Tx:     3bbdc8cda57b3467cf52ae1c816d750da8302857e9723fd4e750062dfe7dfadc
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Tx:     4919edc67220c73ea8e74ffe492d44de7c4d4dcb1909038c2f38f3124de159cd
     Output #0
 
 
   ---- Input 1 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
     Ada:      -
   Source:
-    Tx:     e3f698f1b64f90c75aa2743181175cdcb58dee6ecd1e118ce1fe3d1b5d7c3fa9
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
-    Ada:      -
-  Source:
-    Tx:     3bbdc8cda57b3467cf52ae1c816d750da8302857e9723fd4e750062dfe7dfadc
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Tx:     4919edc67220c73ea8e74ffe492d44de7c4d4dcb1909038c2f38f3124de159cd
     Output #1
 
 
@@ -379,34 +297,20 @@ Outputs:
   ---- Output 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985141
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    0
-=======
-    Ada:      Lovelace:  99984803
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    0
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985117
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    0
 
   ---- Output 1 ----
   Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
   Value:
-<<<<<<< HEAD
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
 
 
 Balances Carried Forward:
   PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985141
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    0
-=======
-    Ada:      Lovelace:  99984803
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    0
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985117
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    0
 
   PubKeyHash: 3c88c96ed5ab14b16a32771bcfcb49928a5557fc... (Wallet 10)
   Value:
@@ -431,11 +335,7 @@ Balances Carried Forward:
   PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
   Value:
     Ada:      Lovelace:  100000000
-<<<<<<< HEAD
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
 
   PubKeyHash: b1fd7c427a17e57c112473449d8b237484c5ebf6... (Wallet 7)
   Value:
@@ -449,28 +349,16 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  8
 
 ==== Slot #4, Tx #0 ====
-<<<<<<< HEAD
-TxId:       190efc108dce75a66fff262a826d879b2f8302d1e82bb34ad594890674fc6b73
-Fee:        Ada:      Lovelace:  14831
-Mint:       30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    0
+TxId:       d633b3808f2657c901209f9b16383a111f28f1c21210d47d6f00077abd21abb2
+Fee:        Ada:      Lovelace:  14855
+Mint:       e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    0
 Signatures  PubKey: 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf...
-              Signature: 584066006d92d370a6a1df69cd816921b9dd7c58...
-=======
-TxId:       8b4d38f1f778114f1f184a9b9973400250aea8133174712bac23b88dd4bb50f9
-Fee:        Ada:      Lovelace:  15169
-Mint:       d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    0
-Signatures  PubKey: 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf...
-              Signature: 5840d415b1bea8d0748ef8545adecb245698bc48...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 58401c9c50ec2e9b5bd3e11919e055f1a3c4f7d9...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
@@ -482,70 +370,39 @@ Inputs:
 
 
   ---- Input 1 ----
-<<<<<<< HEAD
-  Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
-=======
-  Destination:  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
-  Source:
-<<<<<<< HEAD
-    Tx:     d422d95be23e29b223911f1accc87efcb53f402580f6992f99cdd10d4e59fabf
-    Output #1
-
-=======
-    Tx:     3bbdc8cda57b3467cf52ae1c816d750da8302857e9723fd4e750062dfe7dfadc
-    Output #2
-    Script: 5927820100003323322333222333222323322323...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
-
-  ---- Input 2 ----
-  Destination:  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-  Value:
-<<<<<<< HEAD
     Ada:      Lovelace:  8
   Source:
-    Tx:     e3f698f1b64f90c75aa2743181175cdcb58dee6ecd1e118ce1fe3d1b5d7c3fa9
+    Tx:     4919edc67220c73ea8e74ffe492d44de7c4d4dcb1909038c2f38f3124de159cd
     Output #2
-    Script: 5922dc0100003323322333222333222323322323...
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
+    Script: 5922f30100003323322333222333222323322323...
+
+  ---- Input 2 ----
+  Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
+  Value:
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
   Source:
-    Tx:     c10c90286f8cafb4c79d8ff1a1ad991db7b080c82c93169b96621d20325b1303
+    Tx:     cc70755efce85293fc04d8d8b2b3758fb7978644744acb9d000d812191c2f99c
     Output #1
 
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
 
 
 Outputs:
   ---- Output 0 ----
   Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985172
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    0
-=======
-    Ada:      Lovelace:  99984834
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    0
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985148
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    0
 
   ---- Output 1 ----
   Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
   Value:
-<<<<<<< HEAD
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
     Ada:      -
 
   ---- Output 2 ----
-  Destination:  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
-    Ada:      -
-
-  ---- Output 2 ----
-  Destination:  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  5
 
@@ -553,13 +410,8 @@ Outputs:
 Balances Carried Forward:
   PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985141
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    0
-=======
-    Ada:      Lovelace:  99984803
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    0
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985117
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    0
 
   PubKeyHash: 3c88c96ed5ab14b16a32771bcfcb49928a5557fc... (Wallet 10)
   Value:
@@ -583,13 +435,8 @@ Balances Carried Forward:
 
   PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99985172
-    30896f0be123a67de77d0ce749d6bef53656e73b18a4e0381454d563:  guess:    1
-=======
-    Ada:      Lovelace:  99984834
-    d94fdb208200e68776f4f4e5d66b1d9e706caaf0472b8f907031594b:  guess:    1
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99985148
+    e0d75c14e869cebe8e97bbc573fd1f46581e0f1a64f523a7e2421d06:  guess:    1
 
   PubKeyHash: b1fd7c427a17e57c112473449d8b237484c5ebf6... (Wallet 7)
   Value:
@@ -603,10 +450,6 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: ebe3805d0f4678ee325c72a45601bd5c6aaaf78f00a75ab1b87dd4bf
-=======
-  Script: 02b8af0d857b4c0297d1545e40c437c091aa1d8b4f7cb6a7439b3497
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 9a6589c73b6ef32bf3863b46be8818a48d272de5cc234af90041b926
   Value:
     Ada:      Lovelace:  5

@@ -101,19 +101,11 @@ Balances Carried Forward:
     Ada:      Lovelace:  100000000
 
 ==== Slot #1, Tx #0 ====
-<<<<<<< HEAD
-TxId:       54320f23d72905739ed92f8523c03d770b28adceab719d552e06944953007e4c
+TxId:       9a147045756e21e45165e556d3ca7b72cccc4b0bb64c264ffbf9d78290bc6ea5
 Fee:        Ada:      Lovelace:  10
 Mint:       -
 Signatures  PubKey: 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf...
-              Signature: 58402b98f7b30d337cf0ccf300d7cad16045ea90...
-=======
-TxId:       38c403ad8d844f81e71239a7ee88e813898e514d6e0aaf34f59105deaedbe747
-Fee:        Ada:      Lovelace:  10
-Mint:       -
-Signatures  PubKey: 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf...
-              Signature: 58409d21d91612c78ec017c20d748367382985de...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 58400e33fd00a8c417059abf4c79dcc2c464febd...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 977efb35ab621d39dbeb7274ec7795a34708ff4d... (Wallet 2)
@@ -132,11 +124,7 @@ Outputs:
     Ada:      Lovelace:  99999930
 
   ---- Output 1 ----
-<<<<<<< HEAD
-  Destination:  Script: a10d3f89a641e44d12daaf92859a5917e2195ddb9af2f472c66427b2
-=======
-  Destination:  Script: a95602bb22fc5a141ad6e2b14ef84712f9aa96b26becc0cbf21511c9
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 723c9a05801b833b9ee72fddb071e64b31f1cf56d695a2943af0f683
   Value:
     Ada:      Lovelace:  60
 
@@ -182,28 +170,16 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: a10d3f89a641e44d12daaf92859a5917e2195ddb9af2f472c66427b2
-=======
-  Script: a95602bb22fc5a141ad6e2b14ef84712f9aa96b26becc0cbf21511c9
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 723c9a05801b833b9ee72fddb071e64b31f1cf56d695a2943af0f683
   Value:
     Ada:      Lovelace:  60
 
 ==== Slot #2, Tx #0 ====
-<<<<<<< HEAD
-TxId:       b04fa29b2bc834c78ca7ecc5be35929d7dbb476e34b3e82e6cd79e023bb8fde9
-Fee:        Ada:      Lovelace:  7350
+TxId:       2c452be27dae3d025395f82e484fefcb2b983f13c5d03502c5e1be473c51d704
+Fee:        Ada:      Lovelace:  7346
 Mint:       -
 Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840ca7f28c7e91427e90d43ef088245875f863d...
-=======
-TxId:       f0ca3caf39d85b932744bec48444e4cca7996a55dc999b73d3e0d16fdfb4f8cd
-Fee:        Ada:      Lovelace:  7537
-Mint:       -
-Signatures  PubKey: d75a980182b10ab7d54bfed3c964073a0ee172f3...
-              Signature: 5840712477670c87db77754cb7fe2528f0b7420a...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+              Signature: 5840e91431d78abdf1370a9b490d86e3916d276e...
 Inputs:
   ---- Input 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
@@ -215,40 +191,23 @@ Inputs:
 
 
   ---- Input 1 ----
-<<<<<<< HEAD
-  Destination:  Script: a10d3f89a641e44d12daaf92859a5917e2195ddb9af2f472c66427b2
+  Destination:  Script: 723c9a05801b833b9ee72fddb071e64b31f1cf56d695a2943af0f683
   Value:
     Ada:      Lovelace:  60
   Source:
-    Tx:     54320f23d72905739ed92f8523c03d770b28adceab719d552e06944953007e4c
+    Tx:     9a147045756e21e45165e556d3ca7b72cccc4b0bb64c264ffbf9d78290bc6ea5
     Output #1
-    Script: 5916c40100003323322323233322233322233333...
-=======
-  Destination:  Script: a95602bb22fc5a141ad6e2b14ef84712f9aa96b26becc0cbf21511c9
-  Value:
-    Ada:      Lovelace:  60
-  Source:
-    Tx:     38c403ad8d844f81e71239a7ee88e813898e514d6e0aaf34f59105deaedbe747
-    Output #1
-    Script: 5917880100003323322323233322233322233333...
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Script: 5916c20100003323322323233322233322233333...
 
 
 Outputs:
   ---- Output 0 ----
   Destination:  PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99992660
+    Ada:      Lovelace:  99992664
 
   ---- Output 1 ----
-  Destination:  Script: a10d3f89a641e44d12daaf92859a5917e2195ddb9af2f472c66427b2
-=======
-    Ada:      Lovelace:  99992473
-
-  ---- Output 1 ----
-  Destination:  Script: a95602bb22fc5a141ad6e2b14ef84712f9aa96b26becc0cbf21511c9
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Destination:  Script: 723c9a05801b833b9ee72fddb071e64b31f1cf56d695a2943af0f683
   Value:
     Ada:      Lovelace:  50
 
@@ -256,11 +215,7 @@ Outputs:
 Balances Carried Forward:
   PubKeyHash: 35dedd2982a03cf39e7dce03c839994ffdec2ec6... (Wallet 1)
   Value:
-<<<<<<< HEAD
-    Ada:      Lovelace:  99992660
-=======
-    Ada:      Lovelace:  99992473
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+    Ada:      Lovelace:  99992664
 
   PubKeyHash: 3c88c96ed5ab14b16a32771bcfcb49928a5557fc... (Wallet 10)
   Value:
@@ -298,10 +253,6 @@ Balances Carried Forward:
   Value:
     Ada:      Lovelace:  100000000
 
-<<<<<<< HEAD
-  Script: a10d3f89a641e44d12daaf92859a5917e2195ddb9af2f472c66427b2
-=======
-  Script: a95602bb22fc5a141ad6e2b14ef84712f9aa96b26becc0cbf21511c9
->>>>>>> Add opaque ByteString type to support literal ByteStrings.
+  Script: 723c9a05801b833b9ee72fddb071e64b31f1cf56d695a2943af0f683
   Value:
     Ada:      Lovelace:  50
